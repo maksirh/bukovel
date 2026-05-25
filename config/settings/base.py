@@ -12,8 +12,7 @@ env = environ.Env(
 environ.Env.read_env(BASE_DIR / '.env')
 
 _BUILD_COMMANDS = {
-    'collectstatic', 'migrate', 'createcachetable', 'check',
-    'compilemessages', 'bootstrap_once',
+    'collectstatic', 'migrate', 'createcachetable', 'check', 'compilemessages',
 }
 _is_build_command = any(cmd in sys.argv for cmd in _BUILD_COMMANDS)
 

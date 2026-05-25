@@ -97,8 +97,15 @@ class Command(BaseCommand):
 
         unique_name = src_rel.replace("/", "_")
         field = getattr(instance, field_name)
-        with src.open("rb") as fh:
-            field.save(unique_name, File(fh), save=False)
+        try:
+            with src.open("rb") as fh:
+                field.save(unique_name, File(fh), save=False)
+        except Exception as exc:
+            self.stdout.write(
+                self.style.WARNING(
+                    f"   ⚠  Не вдалось завантажити {src_rel}: {exc.__class__.__name__}"
+                )
+            )
 
     def _ok(self, label: str, created: bool) -> None:
         action = "створено" if created else "оновлено"
