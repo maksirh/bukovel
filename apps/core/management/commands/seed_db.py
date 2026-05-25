@@ -11,6 +11,7 @@ from datetime import date
 from pathlib import Path
 
 from django.conf import settings
+from django.core.files import File
 from django.core.management.base import BaseCommand
 
 from apps.core.models import HeroSlide, SiteSettings, StatItem
@@ -79,33 +80,25 @@ class Command(BaseCommand):
     # Helpers
     # ------------------------------------------------------------------
 
-    def _copy_image(self, src_rel: str, dest_subdir: str) -> str:
+    def _apply_image(self, instance, field_name: str, src_rel: str) -> None:
         """
-        Копіює файл з hotel_images/<src_rel> до media/<dest_subdir>/<unique_name>.
-        Унікальне ім'я = src_rel із заміною '/' на '_', щоб уникнути
-        колізій між main_img.png з різних підпапок.
-        Якщо файл вже існує — пропускає копіювання.
-        Якщо src_rel порожній — повертає порожній рядок без попередження.
+        Завантажує файл з hotel_images/ у ImageField через storage backend.
+        Працює локально (media/) і на prod (Cloudinary).
         """
         if not src_rel:
-            return ""
+            return
 
         src = IMAGES_SRC_ROOT / src_rel
         if not src.exists():
             self.stdout.write(
                 self.style.WARNING(f"   ⚠  Зображення не знайдено: hotel_images/{src_rel}")
             )
-            return ""
-
-        dest_dir = MEDIA_ROOT / dest_subdir
-        dest_dir.mkdir(parents=True, exist_ok=True)
+            return
 
         unique_name = src_rel.replace("/", "_")
-        dest = dest_dir / unique_name
-        if not dest.exists():
-            shutil.copy2(src, dest)
-
-        return f"{dest_subdir}/{unique_name}"
+        field = getattr(instance, field_name)
+        with src.open("rb") as fh:
+            field.save(unique_name, File(fh), save=False)
 
     def _ok(self, label: str, created: bool) -> None:
         action = "створено" if created else "оновлено"
@@ -143,7 +136,6 @@ class Command(BaseCommand):
     def _seed_site_settings(self) -> None:
         self.stdout.write("🏨  SiteSettings...")
         d = SITE_SETTINGS_DATA
-        about_img = self._copy_image(d["about_image_src"], "core")
 
         obj = SiteSettings.load()
         obj.site_name = d["site_name"]
@@ -160,8 +152,7 @@ class Command(BaseCommand):
         obj.telegram_url = d["telegram_url"]
         obj.viber_url = d["viber_url"]
         obj.about_text = d["about_text"]
-        if about_img:
-            obj.about_image = about_img
+        self._apply_image(obj, "about_image", d["about_image_src"])
         obj.save()
 
         obj.site_name_en = d["site_name_en"]  # type: ignore[attr-defined]
@@ -175,7 +166,6 @@ class Command(BaseCommand):
     def _seed_hero_slides(self) -> None:
         self.stdout.write("🖼  HeroSlide...")
         for data in HERO_SLIDES_DATA:
-            img = self._copy_image(data["image_src"], "hero")
             obj, created = HeroSlide.objects.update_or_create(
                 order=data["order"],
                 defaults={
@@ -184,9 +174,10 @@ class Command(BaseCommand):
                     "cta_text": data["cta_text"],
                     "cta_url": data["cta_url"],
                     "is_active": data["is_active"],
-                    "image": img,
                 },
             )
+            self._apply_image(obj, "image", data["image_src"])
+            obj.save()
             obj.title_en = data["title_en"]  # type: ignore[attr-defined]
             obj.subtitle_en = data["subtitle_en"]  # type: ignore[attr-defined]
             obj.cta_text_en = data["cta_text_en"]  # type: ignore[attr-defined]
@@ -211,8 +202,6 @@ class Command(BaseCommand):
     def _seed_rooms(self) -> None:
         self.stdout.write("🛏  RoomType + RoomImage + RoomFeature...")
         for data in ROOMS_DATA:
-            cover = self._copy_image(data["cover_image_src"], "rooms")
-
             room, created = RoomType.objects.update_or_create(
                 slug=data["slug"],
                 defaults={
@@ -226,9 +215,10 @@ class Command(BaseCommand):
                     "base_price": data["base_price"],
                     "order": data["order"],
                     "is_active": data["is_active"],
-                    "cover_image": cover,
                 },
             )
+            self._apply_image(room, "cover_image", data["cover_image_src"])
+            room.save()
             room.title_en = data["title_en"]  # type: ignore[attr-defined]
             room.short_description_en = data["short_description_en"]  # type: ignore[attr-defined]
             room.description_en = data["description_en"]  # type: ignore[attr-defined]
@@ -242,14 +232,15 @@ class Command(BaseCommand):
 
     def _seed_room_gallery(self, room: RoomType, images: list) -> None:
         for idx, src in enumerate(images):
-            img_path = self._copy_image(src, "rooms/gallery")
-            if not img_path:
+            if not src:
                 continue
-            RoomImage.objects.update_or_create(
+            obj, _created = RoomImage.objects.update_or_create(
                 room_type=room,
                 order=idx,
-                defaults={"image": img_path, "alt": room.title},
+                defaults={"alt": room.title},
             )
+            self._apply_image(obj, "image", src)
+            obj.save()
 
     def _seed_room_features(self, room: RoomType, features: list) -> None:
         for idx, feat in enumerate(features):
@@ -265,7 +256,6 @@ class Command(BaseCommand):
         self.stdout.write("💆  SpaSchedule + SpaZone + SpaPackage + SpaGallery...")
 
         d = SPA_SCHEDULE_DATA
-        cover = self._copy_image(d["cover_image_src"], "spa")
         schedule = SpaSchedule.load()
         schedule.working_hours = d["working_hours"]
         schedule.sauna_hours = d["sauna_hours"]
@@ -276,8 +266,7 @@ class Command(BaseCommand):
         schedule.highlight_2_label = d["highlight_2_label"]
         schedule.highlight_3_icon = d["highlight_3_icon"]
         schedule.highlight_3_label = d["highlight_3_label"]
-        if cover:
-            schedule.cover_image = cover
+        self._apply_image(schedule, "cover_image", d["cover_image_src"])
         schedule.save()
         schedule.highlight_1_label_en = d["highlight_1_label_en"]  # type: ignore[attr-defined]
         schedule.highlight_2_label_en = d["highlight_2_label_en"]  # type: ignore[attr-defined]
@@ -286,16 +275,16 @@ class Command(BaseCommand):
         self._ok("SpaSchedule", False)
 
         for data in SPA_ZONES_DATA:
-            img = self._copy_image(data["image_src"], "spa")
             obj, created = SpaZone.objects.update_or_create(
                 slug=data["slug"],
                 defaults={
                     "title": data["title"],
                     "description": data["description"],
                     "order": data["order"],
-                    "image": img,
                 },
             )
+            self._apply_image(obj, "image", data["image_src"])
+            obj.save()
             obj.title_en = data["title_en"]  # type: ignore[attr-defined]
             obj.description_en = data["description_en"]  # type: ignore[attr-defined]
             obj.save()
@@ -323,16 +312,12 @@ class Command(BaseCommand):
 
     def _seed_spa_gallery(self) -> None:
         for data in SPA_GALLERY_DATA:
-            img = self._copy_image(data["image_src"], "spa/gallery")
-            if not img:
-                continue
             obj, created = SpaGallery.objects.update_or_create(
                 order=data["order"],
-                defaults={
-                    "image": img,
-                    "caption": data["caption"],
-                },
+                defaults={"caption": data["caption"]},
             )
+            self._apply_image(obj, "image", data["image_src"])
+            obj.save()
             obj.caption_en = data["caption_en"]  # type: ignore[attr-defined]
             obj.save()
             self._ok(data["caption"], created)
@@ -341,14 +326,12 @@ class Command(BaseCommand):
         self.stdout.write("🍽  RestaurantInfo + MenuSection + MenuItem + RestaurantPhoto...")
 
         d = RESTAURANT_INFO_DATA
-        cover = self._copy_image(d["cover_image_src"], "restaurant")
         info = RestaurantInfo.load()
         info.title = d["title"]
         info.description = d["description"]
         info.opening_hours = d["opening_hours"]
         info.breakfast_hours = d["breakfast_hours"]
-        if cover:
-            info.cover_image = cover
+        self._apply_image(info, "cover_image", d["cover_image_src"])
         info.save()
         info.title_en = d["title_en"]  # type: ignore[attr-defined]
         info.description_en = d["description_en"]  # type: ignore[attr-defined]
@@ -366,21 +349,20 @@ class Command(BaseCommand):
             self._ok(section.title, created)
 
             for item_data in block["items"]:
-                img = self._copy_image(item_data.get("image_src", ""), "restaurant/menu")
                 defaults = {
                     "title": item_data["title"],
                     "description": item_data["description"],
                     "price": item_data["price"],
                     "is_active": True,
                 }
-                if img:
-                    defaults["image"] = img
 
                 item, item_created = MenuItem.objects.update_or_create(
                     section=section,
                     order=item_data["order"],
                     defaults=defaults,
                 )
+                self._apply_image(item, "image", item_data.get("image_src", ""))
+                item.save()
                 item.title_en = item_data["title_en"]  # type: ignore[attr-defined]
                 item.description_en = item_data["description_en"]  # type: ignore[attr-defined]
                 item.save()
@@ -389,16 +371,12 @@ class Command(BaseCommand):
 
     def _seed_restaurant_photos(self) -> None:
         for data in RESTAURANT_PHOTOS_DATA:
-            img = self._copy_image(data["image_src"], "restaurant/gallery")
-            if not img:
-                continue
             obj, created = RestaurantPhoto.objects.update_or_create(
                 order=data["order"],
-                defaults={
-                    "image": img,
-                    "alt": data["alt"],
-                },
+                defaults={"alt": data["alt"]},
             )
+            self._apply_image(obj, "image", data["image_src"])
+            obj.save()
             obj.alt_en = data["alt_en"]  # type: ignore[attr-defined]
             obj.save()
             self._ok(data["alt"], created)
@@ -406,7 +384,6 @@ class Command(BaseCommand):
     def _seed_services(self) -> None:
         self.stdout.write("⚙️  Service...")
         for data in SERVICES_DATA:
-            img = self._copy_image(data.get("image_src", ""), "services")
             defaults = {
                 "title": data["title"],
                 "short_description": data["short_description"],
@@ -415,13 +392,13 @@ class Command(BaseCommand):
                 "order": data["order"],
                 "is_active": data["is_active"],
             }
-            if img:
-                defaults["image"] = img
 
             obj, created = Service.objects.update_or_create(
                 slug=data["slug"],
                 defaults=defaults,
             )
+            self._apply_image(obj, "image", data.get("image_src", ""))
+            obj.save()
             obj.title_en = data["title_en"]  # type: ignore[attr-defined]
             obj.short_description_en = data["short_description_en"]  # type: ignore[attr-defined]
             obj.description_en = data["description_en"]  # type: ignore[attr-defined]
@@ -431,7 +408,6 @@ class Command(BaseCommand):
     def _seed_offers(self) -> None:
         self.stdout.write("🏷  SpecialOffer...")
         for data in OFFERS_DATA:
-            img = self._copy_image(data["image_src"], "offers")
             obj, created = SpecialOffer.objects.update_or_create(
                 slug=data["slug"],
                 defaults={
@@ -451,9 +427,10 @@ class Command(BaseCommand):
                     ),
                     "is_active": data["is_active"],
                     "order": data["order"],
-                    "image": img,
                 },
             )
+            self._apply_image(obj, "image", data["image_src"])
+            obj.save()
             obj.title_en = data["title_en"]  # type: ignore[attr-defined]
             obj.subtitle_en = data["subtitle_en"]  # type: ignore[attr-defined]
             obj.description_en = data["description_en"]  # type: ignore[attr-defined]

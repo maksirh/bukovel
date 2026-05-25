@@ -49,23 +49,38 @@ python manage.py test --settings=config.settings.test
 
 ## Деплой на Render
 
-1. Підключити репозиторій до Render
-2. Застосувати Blueprint з `render.yaml` або створити Web Service + PostgreSQL вручну
-3. У Render Dashboard задати змінні:
-   - `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET`
-   - `EMAIL_HOST_USER`, `EMAIL_HOST_PASSWORD`
-   - `BOOKING_NOTIFY_EMAIL`
-   - `ALLOWED_HOSTS` — ваш домен (напр. `zatyshnyi-dvir.com,www.zatyshnyi-dvir.com`)
-4. Render автоматично додає `RENDER_EXTERNAL_HOSTNAME` до `ALLOWED_HOSTS`
+### Важливо: Start Command
 
-Build-команда (вже в `render.yaml`):
+Render за замовчуванням запускає `gunicorn app:app` (Flask-шаблон) — для Django це **неправильно**.
+
+**Start Command** (Settings → bukovel → Start Command):
 
 ```bash
-pip install -r requirements.txt &&
-python manage.py collectstatic --noinput &&
-python manage.py migrate --noinput &&
-python manage.py createcachetable
+gunicorn config.wsgi:application --workers 2 --timeout 120 --bind 0.0.0.0:$PORT
 ```
+
+**Build Command** (Settings → Build Command):
+
+```bash
+pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput && python manage.py createcachetable
+```
+
+**Environment** — обов'язково:
+
+```
+DJANGO_SETTINGS_MODULE=config.settings.prod
+```
+
+### Варіант A — Blueprint (рекомендовано)
+
+1. Render → **New** → **Blueprint**
+2. Підключити репозиторій — Render прочитає `render.yaml` автоматично
+
+### Варіант B — ручний Web Service
+
+1. Підключити GitHub-репозиторій
+2. Вручну вставити **Start Command** і **Build Command** з блоків вище
+3. Додати PostgreSQL і env vars (див. `.env.example`)
 
 ## Налаштування email
 
@@ -84,8 +99,22 @@ BOOKING_NOTIFY_EMAIL=info@zatyshnyi-dvir.com
 ## Seed-дані
 
 ```bash
-python manage.py seed_db          # ідемпотентне заповнення
-python manage.py seed_db --clear  # очистити контент і заповнити заново
+./scripts/setup.sh              # migrate + admin + seed (ідемпотентно)
+./scripts/setup.sh --clear      # очистити контент і заповнити заново
 ```
 
-Зображення беруться з каталогу `hotel_images/`.
+Або окремо:
+
+```bash
+python manage.py setup_admin    # admin / admin
+python manage.py seed_db        # тексти + фото з hotel_images/
+```
+
+На Render Shell:
+
+```bash
+export DJANGO_SETTINGS_MODULE=config.settings.prod
+./scripts/setup.sh
+```
+
+Контент редагується у файлах `apps/core/management/commands/_seed_data*.py`, зображення — у каталозі `hotel_images/`.
