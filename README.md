@@ -62,8 +62,10 @@ gunicorn config.wsgi:application --workers 2 --timeout 120 --bind 0.0.0.0:$PORT
 **Build Command** (Settings → Build Command):
 
 ```bash
-pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput && python manage.py createcachetable
+pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput && python manage.py createcachetable && python manage.py bootstrap_once
 ```
+
+`bootstrap_once` — автоматично один раз створює admin (`admin`/`admin`) і заповнює seed-дані. Повторні деплої пропускають цей крок.
 
 **Environment** — обов'язково:
 
@@ -99,22 +101,13 @@ BOOKING_NOTIFY_EMAIL=info@zatyshnyi-dvir.com
 ## Seed-дані
 
 ```bash
-./scripts/setup.sh              # migrate + admin + seed (ідемпотентно)
+./scripts/setup.sh              # migrate + admin + seed (локально, завжди)
 ./scripts/setup.sh --clear      # очистити контент і заповнити заново
+python manage.py bootstrap_once # один раз (як на Render при деплої)
+python manage.py bootstrap_once --force  # примусово перезаповнити
 ```
 
-Або окремо:
-
-```bash
-python manage.py setup_admin    # admin / admin
-python manage.py seed_db        # тексти + фото з hotel_images/
-```
-
-На Render Shell:
-
-```bash
-export DJANGO_SETTINGS_MODULE=config.settings.prod
-./scripts/setup.sh
-```
+На Render `bootstrap_once` викликається автоматично в Build Command після `migrate`.
+Повторні push/deply **не перезаписують** контент — мітка зберігається в таблиці `SiteBootstrap`.
 
 Контент редагується у файлах `apps/core/management/commands/_seed_data*.py`, зображення — у каталозі `hotel_images/`.

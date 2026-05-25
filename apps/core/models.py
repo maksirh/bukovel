@@ -93,3 +93,17 @@ class StatItem(models.Model):
 
     def __str__(self):
         return f'{self.value} — {self.label}'
+
+
+class SiteBootstrap(models.Model):
+    KEY_INITIAL = 'initial_seed'
+
+    key = models.CharField('Ключ', max_length=64, primary_key=True)
+    completed_at = models.DateTimeField('Завершено', auto_now_add=True)
+
+    class Meta:
+        verbose_name = 'Bootstrap-мітка'
+        verbose_name_plural = 'Bootstrap-мітки'
+
+    def __str__(self):
+        return self.key

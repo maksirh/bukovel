@@ -1,8 +1,6 @@
 from pathlib import Path
-import json
 import os
 import sys
-import time
 
 import environ
 
@@ -13,76 +11,19 @@ env = environ.Env(
 )
 environ.Env.read_env(BASE_DIR / '.env')
 
-# #region agent log
-def _debug_settings_log(message, data, hypothesis_id):
-    try:
-        payload = {
-            'sessionId': '4eb11a',
-            'runId': os.environ.get('DEBUG_RUN_ID', 'pre-fix'),
-            'hypothesisId': hypothesis_id,
-            'location': 'config/settings/base.py',
-            'message': message,
-            'data': data,
-            'timestamp': int(time.time() * 1000),
-        }
-        with open(BASE_DIR / '.cursor/debug-4eb11a.log', 'a', encoding='utf-8') as fh:
-            fh.write(json.dumps(payload, ensure_ascii=False) + '\n')
-    except OSError:
-        pass
-# #endregion
-
-_secret_in_environ = 'SECRET_KEY' in os.environ
-_debug_settings_log(
-    'settings import started',
-    {
-        'argv': sys.argv[:5],
-        'django_settings_module': os.environ.get('DJANGO_SETTINGS_MODULE'),
-        'render': os.environ.get('RENDER'),
-        'secret_key_in_environ': _secret_in_environ,
-        'has_dotenv_file': (BASE_DIR / '.env').exists(),
-    },
-    'H1',
-)
-
-_build_commands = {'collectstatic', 'migrate', 'createcachetable', 'check', 'compilemessages'}
-_is_build_command = any(cmd in sys.argv for cmd in _build_commands)
+_BUILD_COMMANDS = {
+    'collectstatic', 'migrate', 'createcachetable', 'check',
+    'compilemessages', 'bootstrap_once',
+}
+_is_build_command = any(cmd in sys.argv for cmd in _BUILD_COMMANDS)
 
 try:
     SECRET_KEY = env('SECRET_KEY')
-except Exception as exc:
-    # #region agent log
-    _debug_settings_log(
-        'SECRET_KEY env lookup failed',
-        {
-            'error_type': type(exc).__name__,
-            'is_build_command': _is_build_command,
-            'render': os.environ.get('RENDER'),
-        },
-        'H5',
-    )
-    # #endregion
+except Exception:
     if _is_build_command:
         SECRET_KEY = 'build-only-insecure-key-not-for-runtime'
-        # #region agent log
-        _debug_settings_log(
-            'using build-time SECRET_KEY placeholder',
-            {'is_build_command': True},
-            'H2',
-        )
-        # #endregion
     else:
         raise
-
-# #region agent log
-_debug_settings_log(
-    'SECRET_KEY resolved',
-    {
-        'is_placeholder': SECRET_KEY == 'build-only-insecure-key-not-for-runtime',
-        'is_build_command': _is_build_command,
-    },
-    'H3',
-)
-# #endregion
 
 DEBUG = env('DEBUG')
 ALLOWED_HOSTS = env.list('ALLOWED_HOSTS', default=['localhost', '127.0.0.1'])
