@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Contacts" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    <h1 class="page-hero__title reveal reveal--up">{% trans "Contacts" %}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="contacts-layout">
+      <div class="contacts-info reveal reveal--up">
+        {% if site_settings.phone %}
+          <div class="contacts-info__item">
+            <span class="contacts-info__label">{% trans "Phone" %}</span>
+            <a href="tel:{{ site_settings.phone }}" class="contacts-info__value">{{ site_settings.phone }}</a>
+            {% if site_settings.phone_secondary %}
+              <a href="tel:{{ site_settings.phone_secondary }}" class="contacts-info__value">{{ site_settings.phone_secondary }}</a>
+            {% endif %}
+          </div>
+        {% endif %}
+        {% if site_settings.email %}
+          <div class="contacts-info__item">
+            <span class="contacts-info__label">Email</span>
+            <a href="mailto:{{ site_settings.email }}" class="contacts-info__value">{{ site_settings.email }}</a>
+          </div>
+        {% endif %}
+        {% if site_settings.address %}
+          <div class="contacts-info__item">
+            <span class="contacts-info__label">{% trans "Address" %}</span>
+            <p class="contacts-info__value">{{ site_settings.address }}</p>
+          </div>
+        {% endif %}
+        <div class="contacts-info__item">
+          <span class="contacts-info__label">{% trans "Working hours" %}</span>
+          <p class="contacts-info__value">
+            {% trans "Check-in:" %} {{ site_settings.check_in_time }} — {% trans "Check-out:" %} {{ site_settings.check_out_time }}
+          </p>
+        </div>
+        <div class="contacts-socials">
+          {% if site_settings.instagram_url %}
+            <a href="{{ site_settings.instagram_url }}" class="contacts-social-link" target="_blank" rel="noopener">Instagram</a>
+          {% endif %}
+          {% if site_settings.facebook_url %}
+            <a href="{{ site_settings.facebook_url }}" class="contacts-social-link" target="_blank" rel="noopener">Facebook</a>
+          {% endif %}
+          {% if site_settings.telegram_url %}
+            <a href="{{ site_settings.telegram_url }}" class="contacts-social-link" target="_blank" rel="noopener">Telegram</a>
+          {% endif %}
+        </div>
+        <a href="{% url 'booking' %}" class="btn btn--gold">{% trans "Book" %}</a>
+      </div>
+      {% if site_settings.map_embed %}
+        <div class="contacts-map reveal reveal--scale" data-reveal-delay="100">
+          {{ site_settings.map_embed|safe }}
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+{% endblock %}

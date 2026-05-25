@@ -1,0 +1,28 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25em 0.65em;
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.04em;
+  border-radius: var(--radius-sm);
+  white-space: nowrap;
+}
+
+.badge--outline {
+  border: 1px solid var(--clr-border);
+  color: var(--clr-text-muted);
+  background-color: transparent;
+}
+
+.badge--gold {
+  background-color: var(--clr-gold);
+  color: var(--clr-white);
+  border: none;
+}
+
+.badge--forest {
+  background-color: var(--clr-forest);
+  color: var(--clr-white);
+  border: none;
+}

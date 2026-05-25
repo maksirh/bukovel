@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Rooms and apartments" %}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/pages/rooms.css' %}">{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    <span class="page-hero__eyebrow">Затишний Двір</span>
+    <h1 class="page-hero__title reveal reveal--up">{% trans "Rooms and apartments" %}</h1>
+    <p class="page-hero__desc reveal reveal--up" data-reveal-delay="100">{% trans "4 accommodation types for couples, families and large groups" %}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="rooms-grid rooms-grid--page" id="rooms-grid">
+      {% for room in rooms %}
+        {% include 'partials/room_card.html' %}
+      {% empty %}
+        <p class="empty-state">{% trans "Rooms coming soon" %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

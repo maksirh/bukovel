@@ -1,0 +1,101 @@
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+@media (min-width: 640px) {
+  .modal {
+    align-items: center;
+  }
+}
+
+.modal.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal__overlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  -webkit-backdrop-filter: blur(4px);
+  backdrop-filter: blur(4px);
+  cursor: pointer;
+}
+
+.modal__panel {
+  position: relative;
+  background-color: var(--clr-white);
+  width: 100%;
+  max-width: 620px;
+  max-height: calc(100vh - 2rem);
+  max-height: calc(100dvh - 2rem);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: var(--radius-md) var(--radius-md) 0 0;
+  transform: translateY(40px);
+  transition: transform var(--duration-base) var(--ease-out);
+  padding-bottom: max(var(--sp-6), var(--safe-bottom));
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (min-width: 640px) {
+  .modal__panel {
+    border-radius: var(--radius-md);
+    transform: translateY(20px) scale(0.97);
+    max-height: 90vh;
+    max-height: 90dvh;
+  }
+}
+
+.modal.is-open .modal__panel {
+  transform: none;
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--sp-6) var(--sp-6) var(--sp-4);
+  border-bottom: 1px solid var(--clr-border);
+  position: sticky;
+  top: 0;
+  background-color: var(--clr-white);
+  z-index: 1;
+}
+
+.modal__title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+  font-weight: var(--fw-light);
+}
+
+.modal__close {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--clr-text-muted);
+  border-radius: var(--radius-sm);
+  transition: color var(--duration-fast), background-color var(--duration-fast);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.modal__close:hover {
+  color: var(--clr-ink);
+  background-color: var(--clr-beige);
+}
+
+.modal__body {
+  padding: var(--sp-6);
+}

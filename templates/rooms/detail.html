@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{{ room.title }}{% endblock %}
+{% block meta_description %}{{ room.short_description|default:room.title }}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/pages/room-detail.css' %}">{% endblock %}
+
+{% block content %}
+
+<!-- ===== HERO BANNER (cover image) ===== -->
+<section class="room-hero" aria-label="{{ room.title }}">
+  {% if room.cover_image %}
+    <img
+      src="{{ room.cover_image.url }}"
+      alt="{{ room.title }}"
+      class="room-hero__img"
+      loading="eager"
+      fetchpriority="high"
+      width="1400"
+      height="800"
+    >
+  {% else %}
+    <div class="room-hero__placeholder">
+      <span>{{ room.title }}</span>
+    </div>
+  {% endif %}
+</section>
+
+<!-- ===== PHOTO STRIP (marquee) ===== -->
+{% if room.images.exists %}
+<div class="room-photo-strip" role="region" aria-label="{% trans 'Room photos' %}">
+  <div class="room-photo-strip__track">
+    {% for img in room.images.all %}
+      <div class="room-photo-strip__item">
+        <a
+          href="{{ img.image.url }}"
+          data-lightbox
+          data-lightbox-group="room-gallery"
+          hx-boost="false"
+          aria-label="{{ img.alt|default:room.title }}"
+          class="room-photo-strip__link"
+        >
+          <img
+            src="{{ img.image.url }}"
+            alt="{{ img.alt|default:room.title }}"
+            class="room-photo-strip__img"
+            loading="lazy"
+            width="480"
+            height="320"
+          >
+        </a>
+      </div>
+    {% endfor %}
+    {% for img in room.images.all %}
+      <div class="room-photo-strip__item" aria-hidden="true">
+        <img
+          src="{{ img.image.url }}"
+          alt=""
+          class="room-photo-strip__img"
+          loading="lazy"
+          width="480"
+          height="320"
+        >
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- ===== DETAIL: info + booking ===== -->
+<section class="section">
+  <div class="container">
+    <div class="room-detail-layout">
+
+      <!-- LEFT: info -->
+      <div class="room-detail__main">
+        <div class="room-detail__badges">
+          <span class="badge badge--outline">{{ room.area_m2 }} м²</span>
+          <span class="badge badge--outline">
+            {% blocktrans with max_guests=room.max_guests %}up to {{ max_guests }} guests{% endblocktrans %}
+          </span>
+          {% if room.beds %}<span class="badge badge--outline">{{ room.beds }}</span>{% endif %}
+          {% if room.rooms_count > 1 %}<span class="badge badge--outline">{{ room.rooms_count }} {% trans "rooms" %}</span>{% endif %}
+        </div>
+        <h1 class="room-detail__title reveal reveal--up">{{ room.title }}</h1>
+        {% if room.description %}
+          <div class="room-detail__desc reveal reveal--up" data-reveal-delay="100">{{ room.description|linebreaks }}</div>
+        {% elif room.short_description %}
+          <div class="room-detail__desc reveal reveal--up" data-reveal-delay="100">{{ room.short_description|linebreaks }}</div>
+        {% endif %}
+
+        {% if room.features.exists %}
+          <div class="room-features reveal reveal--up" data-reveal-delay="150">
+            <h3 class="room-features__title">{% trans "Included" %}</h3>
+            <ul class="room-features__list">
+              {% for feature in room.features.all %}
+                <li class="room-features__item">
+                  {% if feature.icon %}<span class="room-features__icon" aria-hidden="true">{{ feature.icon }}</span>{% endif %}
+                  {{ feature.title }}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        {% endif %}
+
+        {% if other_rooms %}
+          <div class="other-rooms reveal reveal--up" data-reveal-delay="200">
+            <h3 class="other-rooms__title">{% trans "Other options" %}</h3>
+            <div class="other-rooms__grid">
+              {% for other in other_rooms %}
+                <a href="{{ other.get_absolute_url }}" class="other-room-card">
+                  {% if other.cover_image %}
+                    <img src="{{ other.cover_image.url }}" alt="{{ other.title }}" class="other-room-card__img" loading="lazy" width="300" height="200">
+                  {% endif %}
+                  <div class="other-room-card__info">
+                    <span class="other-room-card__title">{{ other.title }}</span>
+                    <span class="other-room-card__meta">{{ other.area_m2 }} м²</span>
+                  </div>
+                </a>
+              {% endfor %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <!-- RIGHT: booking -->
+      <aside class="room-detail__aside">
+        <div class="room-detail__booking-card">
+          {% if room.base_price %}
+            <div class="room-detail__price">
+              <span class="room-detail__price-label">{% trans "from" %}</span>
+              <strong class="room-detail__price-value">{{ room.base_price }} {% trans "UAH" %}</strong>
+              <span class="room-detail__price-unit">{% trans "/night" %}</span>
+            </div>
+          {% endif %}
+          <h3 class="room-detail__booking-title">{% trans "Book this room" %}</h3>
+          {% include 'partials/booking_form.html' with form=booking_form %}
+        </div>
+      </aside>
+
+    </div>
+  </div>
+</section>
+
+{% endblock %}

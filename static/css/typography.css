@@ -1,0 +1,38 @@
+h1, h2, h3, h4 {
+  font-family: var(--font-serif);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-tight);
+}
+
+h1 { font-size: clamp(var(--fs-2xl), 4vw, var(--fs-4xl)); }
+h2 { font-size: clamp(var(--fs-xl), 3vw, var(--fs-3xl)); }
+h3 { font-size: clamp(var(--fs-lg), 2.5vw, var(--fs-2xl)); }
+h4 { font-size: var(--fs-lg); }
+
+p {
+  line-height: var(--lh-loose);
+}
+
+.text-serif {
+  font-family: var(--font-serif);
+}
+
+.text-muted {
+  color: var(--clr-text-muted);
+}
+
+.text-gold {
+  color: var(--clr-gold);
+}
+
+.text-sm {
+  font-size: var(--fs-sm);
+}
+
+strong, b {
+  font-weight: var(--fw-semi);
+}
+
+em, i {
+  font-style: italic;
+}

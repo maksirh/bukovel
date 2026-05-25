@@ -1,0 +1,54 @@
+/* ---- SERVICE DETAIL ---- */
+.service-detail-layout {
+  display: grid;
+  gap: var(--sp-12);
+  align-items: start;
+}
+
+@media (min-width: 768px) {
+  .service-detail-layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.service-detail__img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.service-detail__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-6);
+}
+
+.service-detail__desc {
+  color: var(--clr-text);
+  line-height: var(--lh-loose);
+}
+
+/* ---- PLACEHOLDER ---- */
+.service-detail__img-placeholder {
+  width: 100%;
+  aspect-ratio: 4/3;
+  border-radius: var(--radius-sm);
+  background-color: var(--clr-beige);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-detail__placeholder-icon {
+  font-size: 4rem;
+  line-height: 1;
+  opacity: 0.45;
+}
+
+.service-detail__placeholder-svg {
+  width: 72px;
+  height: 72px;
+  color: var(--clr-gold);
+  opacity: 0.25;
+}

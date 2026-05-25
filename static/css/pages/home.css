@@ -1,0 +1,431 @@
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  background-color: transparent;
+  margin-top: calc(-1 * var(--header-h));
+}
+
+/* ---- Fixed background: pinned to viewport, behind all content ---- */
+/*
+ * Parallax via JS translateY (data-parallax-fixed) — iOS Safari safe.
+ * z-index: 0 sits above body bg but below all page content (z-index: 1+).
+ */
+.hero__fixed-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.hero__video,
+.hero__bg-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(14, 20, 17, 0.42);
+}
+
+.hero__content {
+  position: relative;
+  z-index: 1;             /* above .hero__fixed-bg (z-index: 0) */
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--container-pad);
+  padding-top: var(--header-h);
+  padding-bottom: var(--sp-16);
+}
+
+.hero__eyebrow {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semi);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--clr-gold);
+  margin-bottom: var(--sp-4);
+}
+
+.hero__title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-hero);
+  font-weight: var(--fw-light);
+  line-height: var(--lh-tight);
+  color: var(--clr-white);
+  max-width: 12ch;
+  margin-bottom: var(--sp-6);
+}
+
+.hero__subtitle {
+  font-size: clamp(var(--fs-base), 2vw, var(--fs-lg));
+  color: rgba(255, 255, 255, 0.75);
+  max-width: 44ch;
+  margin-bottom: var(--sp-8);
+  line-height: var(--lh-snug);
+}
+
+.hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-3);
+  align-items: center;
+}
+
+/* ---- SCROLL HINT ---- */
+.hero__scroll-hint {
+  position: absolute;
+  bottom: max(var(--sp-8), calc(var(--sp-8) + env(safe-area-inset-bottom, 0px)));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
+  z-index: 1;
+}
+
+.hero__scroll-line {
+  display: block;
+  width: 1px;
+  height: 48px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0.6), transparent);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes scrollLine {
+    0%   { transform: scaleY(0); transform-origin: top; }
+    50%  { transform: scaleY(1); transform-origin: top; }
+    51%  { transform: scaleY(1); transform-origin: bottom; }
+    100% { transform: scaleY(0); transform-origin: bottom; }
+  }
+
+  .hero__scroll-line {
+    animation: scrollLine 2s ease-in-out infinite;
+  }
+}
+
+.hero__scroll-label {
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* ===== SECTIONS ABOVE FIXED BACKGROUND ===== */
+body.has-hero {
+  background-color: var(--clr-forest-deep);
+}
+
+.home-stats,
+.home-rooms,
+.home-spa,
+.home-restaurant,
+.home-services,
+.home-offers,
+.home-booking-cta {
+  position: relative;
+  z-index: 1;
+}
+
+/* Gold separator line at the top of each section */
+.home-rooms::before,
+.home-spa::before,
+.home-restaurant::before,
+.home-services::before,
+.home-offers::before,
+.home-booking-cta::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(200, 162, 107, 0.5) 50%,
+    transparent 100%
+  );
+}
+
+/* All sections: transparent — banner image IS the background */
+.home-stats {
+  background-color: rgba(245, 241, 234, 0.9);
+  border-top: none;
+  border-bottom: 1px solid rgba(245, 241, 234, 0.2);
+}
+
+.home-rooms,
+.home-offers,
+.home-services.section--beige {
+  background-color: transparent;
+}
+
+.home-restaurant {
+  background-color: rgba(14, 20, 17, 0.45);
+  -webkit-backdrop-filter: blur(28px) saturate(1.2);
+  backdrop-filter: blur(28px) saturate(1.2);
+}
+
+.home-spa.section--dark {
+  background-color: rgba(14, 20, 17, 0.45);
+  -webkit-backdrop-filter: blur(28px) saturate(1.2);
+  backdrop-filter: blur(28px) saturate(1.2);
+}
+
+.home-booking-cta.section--dark {
+  background-color: transparent;
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+/* Base color inheritance for transparent sections */
+.home-stats,
+.home-rooms,
+.home-restaurant,
+.home-services,
+.home-offers {
+  color: var(--clr-white);
+}
+
+/* ---- Text color overrides ---- */
+.home-stats__value {
+  color: var(--clr-forest);
+}
+
+.home-stats__label {
+  color: var(--clr-text);
+}
+
+.home-rooms .section-title,
+.home-restaurant .section-title,
+.home-services .section-title,
+.home-offers .section-title {
+  color: var(--clr-white);
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.85);
+}
+
+.home-rooms .section-desc,
+.home-offers .section-desc,
+.home-services .section-desc {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+}
+
+.home-restaurant__hours {
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.65);
+}
+
+.home-restaurant__desc {
+  color: rgba(255, 255, 255, 0.92);
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+}
+
+.home-restaurant__img-placeholder {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.35);
+}
+
+.home-spa .section-title--light,
+.home-spa .home-spa__schedule,
+.home-spa .home-spa__feature {
+  text-shadow: 0 1px 10px rgba(0, 0, 0, 0.7);
+}
+
+/* Hero text — stronger shadows for banner readability */
+.hero__title,
+.hero__subtitle,
+.hero__eyebrow {
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.8);
+}
+
+/* ---- Outline buttons on dark banner — ghost style ---- */
+.home-rooms .btn--outline,
+.home-restaurant .btn--outline,
+.home-offers .btn--outline,
+.home-services .btn--outline {
+  color: var(--clr-white);
+  border-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 0.08);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.home-rooms .btn--outline:hover,
+.home-restaurant .btn--outline:hover,
+.home-offers .btn--outline:hover,
+.home-services .btn--outline:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--clr-white);
+  color: var(--clr-white);
+}
+
+/* ---- Cards: glass panels with gold accent on hover ---- */
+.home-rooms .room-card,
+.home-offers .offer-card {
+  background-color: rgba(20, 28, 25, 0.72);
+  border-color: rgba(200, 162, 107, 0.18);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+
+.home-rooms .room-card:hover,
+.home-offers .offer-card:hover {
+  border-color: rgba(200, 162, 107, 0.55);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.45);
+  transform: translateY(-4px);
+}
+
+.home-rooms .room-card__title,
+.home-offers .offer-card__title {
+  color: var(--clr-white);
+}
+
+.home-rooms .room-card__desc,
+.home-offers .offer-card__subtitle {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.home-rooms .room-card__price {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.home-rooms .room-card__footer {
+  border-top-color: rgba(255, 255, 255, 0.12);
+}
+
+.home-rooms .room-card .badge--outline {
+  color: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 255, 255, 0.25);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.home-offers .offer-card__dates {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.home-services .service-card {
+  background-color: rgba(20, 28, 25, 0.55);
+  border-color: rgba(200, 162, 107, 0.18);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+.home-services .service-card:hover {
+  border-color: var(--clr-gold);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+
+.home-services .service-card__title {
+  color: var(--clr-white);
+}
+
+.home-services .service-card__desc {
+  color: rgba(255, 255, 255, 0.82);
+}
+
+/* ===== ROOMS CAROUSEL ===== */
+.rooms-carousel {
+  position: relative;
+}
+
+.rooms-carousel__track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 100%;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.rooms-carousel__track::-webkit-scrollbar {
+  display: none;
+}
+
+.rooms-carousel__slide {
+  scroll-snap-align: start;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--sp-6);
+}
+
+@media (max-width: 1279px) {
+  .rooms-carousel__slide {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.rooms-carousel__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: var(--sp-10);
+}
+
+.rooms-carousel__controls {
+  display: flex;
+  gap: var(--sp-3);
+}
+
+.rooms-carousel__btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  color: var(--clr-white);
+  cursor: pointer;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: background-color var(--duration-fast),
+              border-color var(--duration-fast);
+}
+
+.rooms-carousel__btn:hover {
+  background-color: rgba(255, 255, 255, 0.22);
+  border-color: var(--clr-gold);
+}
+
+/* On mobile: disable horizontal carousel, stack all cards */
+@media (max-width: 639px) {
+  .rooms-carousel__track {
+    display: block;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .rooms-carousel__slide {
+    display: grid;
+    grid-template-columns: 1fr;
+    scroll-snap-align: none;
+    margin-bottom: var(--sp-6);
+  }
+
+  .rooms-carousel__controls {
+    display: none;
+  }
+
+  .rooms-carousel__footer {
+    justify-content: center;
+  }
+}
+

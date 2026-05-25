@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{{ offer.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/offers.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    {% if offer.discount_percent %}
+      <span class="page-hero__badge">-{{ offer.discount_percent }}%</span>
+    {% endif %}
+    <h1 class="page-hero__title reveal reveal--up">{{ offer.title }}</h1>
+    {% if offer.subtitle %}
+      <p class="page-hero__desc reveal reveal--up" data-reveal-delay="100">{{ offer.subtitle }}</p>
+    {% endif %}
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="offer-detail-layout">
+      {% if offer.image %}
+        <div class="offer-detail__media reveal reveal--scale">
+          <img src="{{ offer.image.url }}" alt="{{ offer.title }}" class="offer-detail__img" loading="lazy" width="680" height="480">
+        </div>
+      {% endif %}
+      <div class="offer-detail__text">
+        {% if offer.valid_from or offer.valid_to %}
+          <div class="offer-detail__dates reveal reveal--up">
+            {% if offer.valid_from %}
+              <span>{% blocktrans with date=offer.valid_from|date:"d.m.Y" %}From {{ date }}{% endblocktrans %}</span>
+            {% endif %}
+            {% if offer.valid_to %}
+              <span>{% blocktrans with date=offer.valid_to|date:"d.m.Y" %}Until {{ date }}{% endblocktrans %}</span>
+            {% endif %}
+          </div>
+        {% endif %}
+        <div class="offer-detail__desc reveal reveal--up" data-reveal-delay="100">{{ offer.description|linebreaks }}</div>
+        <a
+          href="{% url 'booking' %}"
+          class="btn btn--gold reveal reveal--up"
+          data-reveal-delay="200"
+        >{% trans "Use this offer" %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if other_offers %}
+<section class="section section--beige">
+  <div class="container">
+    <h2 class="section-title reveal reveal--up">{% trans "Other offers" %}</h2>
+    <div class="offers-grid">
+      {% for other in other_offers %}
+        {% include 'partials/offer_card.html' with offer=other %}
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

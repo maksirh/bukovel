@@ -1,0 +1,20 @@
+Нова заявка на бронювання
+
+Гість: {{ booking.full_name }}
+Телефон: {{ booking.phone }}
+Email: {{ booking.email }}
+
+Заїзд: {{ booking.check_in }}
+Виїзд: {{ booking.check_out }}
+Ночей: {{ booking.nights }}
+
+Дорослих: {{ booking.adults }}
+Дітей: {{ booking.children }}
+{% if booking.room_type %}Тип номера: {{ booking.room_type.title }}{% endif %}
+
+Побажання:
+{{ booking.message }}
+
+---
+Дата заявки: {{ booking.created_at }}
+IP: {{ booking.ip_address }}

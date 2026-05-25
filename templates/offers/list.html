@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Special offers" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    <h1 class="page-hero__title reveal reveal--up">{% trans "Special offers" %}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="offers-grid offers-grid--page">
+      {% for offer in offers %}
+        {% include 'partials/offer_card.html' %}
+      {% empty %}
+        <p class="empty-state">{% trans "Offers coming soon" %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

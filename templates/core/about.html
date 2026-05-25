@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "About us page title" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    <h1 class="page-hero__title reveal reveal--up">{% trans "About the hotel" %}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="about-layout">
+      {% if site_settings.about_image %}
+        <div class="about-layout__media reveal reveal--scale">
+          <img src="{{ site_settings.about_image.url }}" alt="{% trans 'About the hotel' %}" class="about-layout__img" loading="lazy" width="680" height="500">
+        </div>
+      {% endif %}
+      <div class="about-layout__text">
+        <h2 class="section-title reveal reveal--up">{{ site_settings.site_name }}</h2>
+        {% if site_settings.tagline %}
+          <p class="about-layout__tagline reveal reveal--up">{{ site_settings.tagline }}</p>
+        {% endif %}
+        {% if site_settings.about_text %}
+          <div class="about-layout__body reveal reveal--up" data-reveal-delay="100">{{ site_settings.about_text|linebreaks }}</div>
+        {% else %}
+          <p class="about-layout__body reveal reveal--up">{% trans "Zatyshnyi Dvir hotel is located in picturesque Bukovel — the largest ski resort in Ukraine. We combine premium-level comfort with the warm atmosphere of Carpathian coziness." %}</p>
+        {% endif %}
+        <div class="about-layout__checkin reveal reveal--up" data-reveal-delay="200">
+          <div class="checkin-info">
+            <span class="checkin-info__label">{% trans "Check-in" %}</span>
+            <strong class="checkin-info__time">{{ site_settings.check_in_time }}</strong>
+          </div>
+          <div class="checkin-info">
+            <span class="checkin-info__label">{% trans "Check-out" %}</span>
+            <strong class="checkin-info__time">{{ site_settings.check_out_time }}</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

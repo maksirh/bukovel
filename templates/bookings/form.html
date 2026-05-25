@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Booking page title" %}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/pages/booking.css' %}">{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    <h1 class="page-hero__title reveal reveal--up">{% trans "Booking page title" %}</h1>
+    <p class="page-hero__desc reveal reveal--up" data-reveal-delay="100">{% trans "Leave a request — our manager will contact you within 30 minutes" %}</p>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="booking-page-layout">
+      <div class="booking-page__form reveal reveal--up">
+        {% include 'partials/booking_form.html' with form=form %}
+      </div>
+      <aside class="booking-page__info reveal reveal--up" data-reveal-delay="100">
+        <div class="booking-info-card">
+          <h3 class="booking-info-card__title">{% trans "Information" %}</h3>
+          <ul class="booking-info-card__list">
+            <li>{% trans "Check-in:" %} {{ site_settings.check_in_time }}</li>
+            <li>{% trans "Check-out:" %} {{ site_settings.check_out_time }}</li>
+            {% if site_settings.phone %}
+              <li><a href="tel:{{ site_settings.phone }}">{{ site_settings.phone }}</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>
+{% endblock %}

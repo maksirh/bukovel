@@ -1,0 +1,29 @@
+{% load static i18n %}
+<article class="offer-card reveal reveal--up" data-reveal-delay="{{ forloop.counter0 }}00">
+  <a href="{{ offer.get_absolute_url }}" class="offer-card__link" tabindex="-1" aria-hidden="true">
+    <div class="offer-card__img-wrap">
+      {% if offer.discount_percent %}
+        <span class="offer-card__badge">-{{ offer.discount_percent }}%</span>
+      {% endif %}
+      {% if offer.image %}
+        <img src="{{ offer.image.url }}" alt="{{ offer.title }}" class="offer-card__img" loading="lazy" width="600" height="380">
+      {% else %}
+        <div class="offer-card__img-placeholder"></div>
+      {% endif %}
+    </div>
+  </a>
+  <div class="offer-card__body">
+    <h3 class="offer-card__title">
+      <a href="{{ offer.get_absolute_url }}" class="offer-card__title-link">{{ offer.title }}</a>
+    </h3>
+    {% if offer.subtitle %}
+      <p class="offer-card__subtitle">{{ offer.subtitle }}</p>
+    {% endif %}
+    {% if offer.valid_to %}
+      <p class="offer-card__dates">
+        {% blocktrans with date=offer.valid_to|date:"d.m.Y" %}until {{ date }}{% endblocktrans %}
+      </p>
+    {% endif %}
+    <a href="{{ offer.get_absolute_url }}" class="btn btn--outline btn--sm">{% trans "Learn more" %}</a>
+  </div>
+</article>

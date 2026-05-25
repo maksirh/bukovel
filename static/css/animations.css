@@ -1,0 +1,109 @@
+/* ---- KEYFRAMES ---- */
+@keyframes spinLoader {
+  to { transform: rotate(360deg); }
+}
+
+/* ---- REVEAL BASE ---- */
+.reveal {
+  opacity: 0;
+  transition:
+    opacity var(--reveal-duration) var(--reveal-easing) var(--reveal-delay),
+    transform var(--reveal-duration) var(--reveal-easing) var(--reveal-delay);
+}
+
+.reveal--up {
+  transform: translateY(32px);
+}
+
+.reveal--scale {
+  transform: scale(0.94);
+}
+
+.reveal--right {
+  transform: translateX(-24px);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---- HERO initial state (always visible) ---- */
+.hero .reveal.is-visible {
+  animation: none;
+}
+
+/* ---- HOVER UTILITIES ---- */
+
+/* Subtle lift on hover — apply to cards, links, buttons */
+.hover-lift {
+  transition:
+    transform var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Image zoom inside a container with overflow: hidden */
+.hover-zoom {
+  overflow: hidden;
+}
+
+.hover-zoom img,
+.hover-zoom .hover-zoom__target {
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+.hover-zoom:hover img,
+.hover-zoom:hover .hover-zoom__target {
+  transform: scale(1.05);
+}
+
+/* Gold underline link animation */
+.hover-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.hover-underline::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0;
+  height: 1px;
+  background-color: var(--clr-gold);
+  transition: width var(--duration-base) var(--ease-out);
+}
+
+.hover-underline:hover::after {
+  width: 100%;
+}
+
+
+/* ---- REDUCED MOTION ---- */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .reveal.is-visible {
+    animation: none;
+  }
+  .hover-lift,
+  .hover-lift:hover,
+  .hover-zoom img,
+  .hover-zoom:hover img,
+  .hover-underline::after {
+    transition: none;
+    transform: none;
+    animation: none;
+  }
+  html {
+    scroll-behavior: auto;
+  }
+}

@@ -1,0 +1,32 @@
+{% load static i18n %}
+<article class="room-card reveal reveal--up" data-reveal-delay="{{ forloop.counter0 }}00">
+  <a href="{{ room.get_absolute_url }}" class="room-card__link" tabindex="-1" aria-hidden="true">
+    <div class="room-card__img-wrap">
+      {% if room.cover_image %}
+        <img src="{{ room.cover_image.url }}" alt="{{ room.title }}" class="room-card__img" loading="lazy" width="600" height="400">
+      {% else %}
+        <div class="room-card__img-placeholder"></div>
+      {% endif %}
+    </div>
+  </a>
+  <div class="room-card__body">
+    <div class="room-card__meta">
+      <span class="badge badge--outline">{{ room.area_m2 }} м²</span>
+      <span class="badge badge--outline">{{ room.max_guests }} {% trans "guests." %}</span>
+    </div>
+    <h3 class="room-card__title">
+      <a href="{{ room.get_absolute_url }}" class="room-card__title-link">{{ room.title }}</a>
+    </h3>
+    {% if room.short_description %}
+      <p class="room-card__desc">{{ room.short_description|truncatewords:18 }}</p>
+    {% endif %}
+    <div class="room-card__footer">
+      {% if room.base_price %}
+        <span class="room-card__price">
+          {% blocktrans with price=room.base_price %}from {{ price }} UAH/night{% endblocktrans %}
+        </span>
+      {% endif %}
+      <a href="{{ room.get_absolute_url }}" class="btn btn--outline btn--sm">{% trans "More details" %}</a>
+    </div>
+  </div>
+</article>

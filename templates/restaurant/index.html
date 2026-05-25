@@ -1,0 +1,201 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Restaurant" %}{% endblock %}
+{% block extra_css %}<link rel="stylesheet" href="{% static 'css/pages/restaurant.css' %}">{% endblock %}
+
+{% block content %}
+
+<!-- ===== HERO ===== -->
+<section class="page-hero page-hero--sm page-hero--parallax">
+  <div class="parallax-bg"
+    {% if info.cover_image %}data-bg="{{ info.cover_image.url }}"{% endif %}
+  ></div>
+  <div class="parallax-overlay"></div>
+  <div class="container page-hero__content">
+    <span class="page-hero__eyebrow">{% trans "Gastronomy" %}</span>
+    {% trans "Meat and wine restaurant" as default_restaurant_title %}
+    <h1 class="page-hero__title reveal reveal--up">{{ info.title|default:default_restaurant_title }}</h1>
+    <p class="page-hero__desc reveal reveal--up" data-reveal-delay="100">
+      {{ info.opening_hours|default:"13:00 – 23:00" }} &nbsp;·&nbsp; {% trans "Breakfasts:" %} {{ info.breakfast_hours|default:"08:00 – 11:00" }}
+    </p>
+  </div>
+</section>
+
+<!-- ===== HIGHLIGHTS BAR ===== -->
+<div class="restaurant-highlights-bar" role="region" aria-label="{% trans 'Restaurant info' %}">
+  <div class="container">
+    <ul class="restaurant-highlights-bar__list">
+      <li class="restaurant-highlights-bar__item">
+        <span class="restaurant-highlights-bar__icon" aria-hidden="true">🕐</span>
+        <span>{{ info.opening_hours|default:"13:00 – 23:00" }}</span>
+      </li>
+      <li class="restaurant-highlights-bar__item">
+        <span class="restaurant-highlights-bar__icon" aria-hidden="true">🌅</span>
+        <span>{% trans "Breakfasts" %}: {{ info.breakfast_hours|default:"08:00 – 11:00" }}</span>
+      </li>
+      <li class="restaurant-highlights-bar__item">
+        <span class="restaurant-highlights-bar__icon" aria-hidden="true">🍷</span>
+        <span>{% trans "80+ wines" %}</span>
+      </li>
+      <li class="restaurant-highlights-bar__item">
+        <span class="restaurant-highlights-bar__icon" aria-hidden="true">🎵</span>
+        <span>{% trans "Live music on weekends" %}</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+
+<!-- ===== INTRO ===== -->
+{% if info.description %}
+<div class="section section--sm">
+  <div class="container">
+    <p class="restaurant-intro reveal reveal--up">{{ info.description }}</p>
+  </div>
+</div>
+{% endif %}
+
+<!-- ===== ATMOSPHERE ===== -->
+<section class="section restaurant-atmosphere">
+  <div class="container">
+    <div class="restaurant-atmosphere__inner">
+      <div class="restaurant-atmosphere__content reveal reveal--up">
+        <span class="section-eyebrow">{% trans "Atmosphere" %}</span>
+        <h2 class="restaurant-atmosphere__title">{% trans "More than just dinner" %}</h2>
+        <p class="restaurant-atmosphere__text">
+          {% trans "Carpathian chalet interior, panoramic windows overlooking the ski slopes, noble wine list of 80+ positions and live music on weekends. Every evening at our restaurant is a unique experience." %}
+        </p>
+        <ul class="restaurant-atmosphere__list">
+          <li>
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {% trans "Panoramic views of Bukovel slopes" %}
+          </li>
+          <li>
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {% trans "Author's menu from fresh local ingredients" %}
+          </li>
+          <li>
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {% trans "Over 80 wine positions from European estates" %}
+          </li>
+          <li>
+            <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            {% trans "Private events and banquets" %}
+          </li>
+        </ul>
+      </div>
+      {% if photos %}
+        <div class="restaurant-atmosphere__photo reveal reveal--up" data-reveal-delay="120">
+          <img
+            src="{{ photos.0.image.url }}"
+            alt="{{ photos.0.alt }}"
+            class="restaurant-atmosphere__img"
+            loading="lazy"
+            width="640"
+            height="480"
+          >
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<!-- ===== PHOTO STRIP ===== -->
+{% if photos %}
+<div class="restaurant-photo-strip">
+  <div class="photo-strip__track">
+    {% for photo in photos %}
+      <div class="photo-strip__item">
+        <img
+          src="{{ photo.image.url }}"
+          alt="{{ photo.alt }}"
+          class="photo-strip__img"
+          data-lightbox
+          data-lightbox-group="restaurant-gallery"
+          loading="lazy"
+          width="480" height="320"
+        >
+      </div>
+    {% endfor %}
+    {% for photo in photos %}
+      <div class="photo-strip__item" aria-hidden="true">
+        <img src="{{ photo.image.url }}" alt="" class="photo-strip__img" loading="lazy" width="480" height="320">
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- ===== MENU ===== -->
+{% if sections %}
+<section class="section restaurant-menu" id="menu">
+  <div class="container">
+    <div class="section-header reveal reveal--up">
+      <span class="section-eyebrow">{% trans "Our offer" %}</span>
+      <h2 class="section-title">{% trans "Menu" %}</h2>
+    </div>
+    {% for section in sections %}
+      <div class="menu-section reveal reveal--up">
+        <div class="menu-section__header">
+          <h3 class="menu-section__title">{{ section.title }}</h3>
+          {% if section.description %}
+            <p class="menu-section__desc">{{ section.description }}</p>
+          {% endif %}
+        </div>
+        <div class="menu-grid">
+          {% for item in section.active_items %}
+            <div class="menu-card">
+              <div class="menu-card__img-wrap{% if not item.image %} menu-card__placeholder{% endif %}"{% if not item.image %} aria-hidden="true"{% endif %}>
+                {% if item.image %}
+                  <img src="{{ item.image.url }}" alt="{{ item.title }}" class="menu-card__img" loading="lazy" width="400" height="280">
+                {% else %}
+                  <svg class="menu-card__placeholder-icon" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                    <path d="M8 10c0 6 4 10 4 16v10h4V26c0-6 4-10 4-16" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="16" y1="10" x2="16" y2="36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    <path d="M32 10v8a6 6 0 0 0 6 6v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    <line x1="38" y1="10" x2="38" y2="36" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                  </svg>
+                {% endif %}
+              </div>
+              <div class="menu-card__body">
+                <h4 class="menu-card__title">{{ item.title }}</h4>
+                {% if item.description %}
+                  <p class="menu-card__desc">{{ item.description }}</p>
+                {% endif %}
+                {% if item.price %}
+                  <span class="menu-card__price-badge">{{ item.price }}&thinsp;{% trans "UAH" %}</span>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<!-- ===== CTA ===== -->
+<section class="section section--dark restaurant-cta-section">
+  <div class="container">
+    <div class="restaurant-cta reveal reveal--up">
+      <div class="restaurant-cta__text">
+        <h2 class="restaurant-cta__title">{% trans "Book a table" %}</h2>
+        <p class="restaurant-cta__subtitle">{% trans "Dinner for two, family event or corporate banquet — we'll arrange everything" %}</p>
+        {% if site_settings.phone %}
+          <a href="tel:{{ site_settings.phone }}" class="restaurant-cta__phone">{{ site_settings.phone }}</a>
+        {% endif %}
+      </div>
+      <button
+        type="button"
+        class="btn btn--gold btn--lg"
+        hx-get="{% url 'booking_modal' %}"
+        hx-target="#modal-root"
+        hx-swap="innerHTML"
+      >{% trans "Book" %}</button>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

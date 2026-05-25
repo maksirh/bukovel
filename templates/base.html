@@ -1,0 +1,64 @@
+{% load static i18n %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#1F2A24">
+  <meta name="htmx-config" content='{"headMergeStyle":"none"}'>
+  <title>{% block title %}{{ site_settings.site_name }}{% endblock %} — {% trans "Hotel in Bukovel" %}</title>
+  <meta name="description" content="{% block meta_description %}{% trans 'Premium hotel and SPA in Bukovel — Zatyshnyi Dvir. Apartments, panoramic SPA, restaurant.' %}{% endblock %}">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Manrope:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="{% static 'css/reset.css' %}">
+  <link rel="stylesheet" href="{% static 'css/tokens.css' %}">
+  <link rel="stylesheet" href="{% static 'css/base.css' %}">
+  <link rel="stylesheet" href="{% static 'css/typography.css' %}">
+  <link rel="stylesheet" href="{% static 'css/animations.css' %}">
+  <link rel="stylesheet" href="{% static 'css/layout/header.css' %}">
+  <link rel="stylesheet" href="{% static 'css/layout/footer.css' %}">
+  <link rel="stylesheet" href="{% static 'css/layout/grid.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/button.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/card.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/slider.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/form.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/modal.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/badge.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/nav-mobile.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/lang-switcher.css' %}">
+  <link rel="stylesheet" href="{% static 'css/components/lightbox.css' %}">
+  {% block extra_css %}{% endblock %}
+
+  <script src="https://unpkg.com/htmx.org@2.0.4" defer></script>
+</head>
+<body hx-boost="true"
+      hx-target="#main-content"
+      hx-select="#main-content"
+      hx-swap="outerHTML"
+      class="{% block body_class %}{% endblock %}"
+      data-i18n-close="{% trans 'Close' %}"
+      data-i18n-prev="{% trans 'Previous photo' %}"
+      data-i18n-next="{% trans 'Next photo' %}"
+      data-i18n-view="{% trans 'View photo' %}">
+
+  <a href="#main-content" class="skip-link">{% trans "Skip to main content" %}</a>
+
+  {% include 'partials/header.html' %}
+
+  <div id="modal-root" aria-live="polite"></div>
+
+  <main id="main-content" class="site-main">
+    {% block content %}{% endblock %}
+  </main>
+
+  {% include 'partials/footer.html' %}
+
+  {% include 'partials/mobile-nav.html' %}
+
+  <script type="module" src="{% static 'js/main.js' %}"></script>
+  {% block extra_js %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,443 @@
+# Ukrainian translations for Bukovel project.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: uk\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+
+# base.html
+msgid "Hotel in Bukovel"
+msgstr "Готель у Буковелі"
+
+msgid "Premium hotel and SPA in Bukovel — Zatyshnyi Dvir. Apartments, panoramic SPA, restaurant."
+msgstr "Преміум готель та SPA у Буковелі — Затишний Двір. Апартаменти, панорамний SPA, ресторан."
+
+# header / nav
+msgid "Main navigation"
+msgstr "Головна навігація"
+
+msgid "Rooms"
+msgstr "Номери"
+
+msgid "Restaurant"
+msgstr "Ресторан"
+
+msgid "Services"
+msgstr "Послуги"
+
+msgid "Offers"
+msgstr "Акції"
+
+msgid "Contacts"
+msgstr "Контакти"
+
+msgid "Book a room"
+msgstr "Забронювати номер"
+
+msgid "Book"
+msgstr "Забронювати"
+
+msgid "Menu"
+msgstr "Меню"
+
+# footer
+msgid "Footer navigation"
+msgstr "Нижня навігація"
+
+msgid "Hotel"
+msgstr "Готель"
+
+msgid "Additional navigation"
+msgstr "Додаткова навігація"
+
+msgid "Information"
+msgstr "Інформація"
+
+msgid "About us"
+msgstr "Про нас"
+
+msgid "Booking"
+msgstr "Бронювання"
+
+msgid "Check-in:"
+msgstr "Заїзд:"
+
+msgid "Check-out:"
+msgstr "Виїзд:"
+
+msgid "All rights reserved."
+msgstr "Всі права захищені."
+
+# mobile-nav
+msgid "Mobile navigation"
+msgstr "Мобільна навігація"
+
+msgid "Close menu"
+msgstr "Закрити меню"
+
+# booking form
+msgid "Your name *"
+msgstr "Ваше ім'я *"
+
+msgid "Phone *"
+msgstr "Телефон *"
+
+msgid "Check-in date *"
+msgstr "Дата заїзду *"
+
+msgid "Check-out date *"
+msgstr "Дата виїзду *"
+
+msgid "Adults"
+msgstr "Дорослих"
+
+msgid "Children"
+msgstr "Дітей"
+
+msgid "Room type"
+msgstr "Тип номера"
+
+msgid "Special requests"
+msgstr "Побажання"
+
+msgid "Submit request"
+msgstr "Надіслати заявку"
+
+# room card
+msgid "guests."
+msgstr "гост."
+
+msgid "from %(price)s UAH/night"
+msgstr "від %(price)s грн/ніч"
+
+msgid "More details"
+msgstr "Детальніше"
+
+# offer card
+msgid "until %(date)s"
+msgstr "до %(date)s"
+
+msgid "Learn more"
+msgstr "Дізнатись більше"
+
+# home page
+msgid "Our rooms"
+msgstr "Наші номери"
+
+msgid "Rooms and apartments"
+msgstr "Номери та апартаменти"
+
+msgid "Panoramic pool, m"
+msgstr "Панорамний басейн, м"
+
+msgid "Service level"
+msgstr "Рівень сервісу"
+
+msgid "To ski lift 7R"
+msgstr "До підйомника 7R"
+
+msgid "Apartments"
+msgstr "Апартаменти"
+
+msgid "From cozy studios to exclusive apartments with panoramic terraces"
+msgstr "Від затишного студіо до ексклюзивних апартаментів з панорамними терасами"
+
+msgid "Rooms coming soon"
+msgstr "Номери незабаром з'являться"
+
+msgid "All rooms"
+msgstr "Усі номери"
+
+msgid "Recovery"
+msgstr "Відновлення"
+
+msgid "Panoramic SPA"
+msgstr "Панорамний SPA"
+
+msgid "SPA hours:"
+msgstr "Години роботи SPA:"
+
+msgid "Steam rooms:"
+msgstr "Парні:"
+
+msgid "Panoramic pool 20×8m"
+msgstr "Панорамний басейн 20×8м"
+
+msgid "Finnish saunas"
+msgstr "Фінські сауни"
+
+msgid "Hammam"
+msgstr "Хамам"
+
+msgid "Three jacuzzis"
+msgstr "Три джакузі"
+
+msgid "Learn more about SPA"
+msgstr "Детальніше про SPA"
+
+msgid "Gastronomy"
+msgstr "Гастрономія"
+
+msgid "Meat and wine restaurant"
+msgstr "Ресторан м'яса та вина"
+
+msgid "Breakfasts:"
+msgstr "Сніданки:"
+
+msgid "Breakfasts"
+msgstr "Сніданки"
+
+msgid "80+ wines"
+msgstr "80+ позицій вин"
+
+msgid "Live music on weekends"
+msgstr "Жива музика у вихідні"
+
+msgid "More than just dinner"
+msgstr "Більше, ніж просто вечеря"
+
+msgid "Carpathian chalet interior, panoramic windows overlooking the ski slopes, noble wine list of 80+ positions and live music on weekends. Every evening at our restaurant is a unique experience."
+msgstr "Інтер'єр карпатського шале, панорамні вікна з видом на схили, карта благородних вин 80+ позицій та жива музика у вихідні. Кожен вечір у нашому ресторані — унікальний досвід."
+
+msgid "Panoramic views of Bukovel slopes"
+msgstr "Панорамний вид на схили Буковелю"
+
+msgid "Author's menu from fresh local ingredients"
+msgstr "Авторське меню зі свіжих місцевих інгредієнтів"
+
+msgid "Over 80 wine positions from European estates"
+msgstr "Понад 80 позицій вин з European маєтків"
+
+msgid "Private events and banquets"
+msgstr "Приватні заходи та банкети"
+
+msgid "Our offer"
+msgstr "Наша пропозиція"
+
+msgid "Book a table"
+msgstr "Забронювати стіл"
+
+msgid "Dinner for two, family event or corporate banquet — we'll arrange everything"
+msgstr "Вечеря для двох, сімейне свято чи корпоратив — організуємо все"
+
+msgid "Restaurant menu"
+msgstr "Меню ресторану"
+
+msgid "Amenities"
+msgstr "Зручності"
+
+msgid "Additional services"
+msgstr "Додаткові послуги"
+
+msgid "Special offers"
+msgstr "Спеціальні пропозиції"
+
+msgid "Profitable"
+msgstr "Вигідно"
+
+msgid "All offers"
+msgstr "Усі акції"
+
+msgid "Book your holiday"
+msgstr "Забронюйте ваш відпочинок"
+
+msgid "Leave a request — our manager will contact you within 30 minutes"
+msgstr "Залиште заявку — наш менеджер зв'яжеться з вами протягом 30 хвилин"
+
+# about page
+msgid "About us page title"
+msgstr "Про нас"
+
+msgid "About the hotel"
+msgstr "Про готель"
+
+msgid "Check-in"
+msgstr "Заїзд"
+
+msgid "Check-out"
+msgstr "Виїзд"
+
+msgid "Zatyshnyi Dvir hotel is located in picturesque Bukovel — the largest ski resort in Ukraine. We combine premium-level comfort with the warm atmosphere of Carpathian coziness."
+msgstr "Готель Затишний Двір розташований у мальовничому Буковелі — найбільшому гірськолижному курорті України. Ми поєднуємо комфорт преміум-рівня з теплою атмосферою карпатського затишку."
+
+# contacts page
+msgid "Phone"
+msgstr "Телефон"
+
+msgid "Address"
+msgstr "Адреса"
+
+msgid "Working hours"
+msgstr "Час роботи"
+
+# rooms list
+msgid "4 accommodation types for couples, families and large groups"
+msgstr "4 типи проживання для пар, сімей та великих компаній"
+
+# rooms detail
+msgid "up to %(max_guests)s guests"
+msgstr "до %(max_guests)s гостей"
+
+msgid "rooms"
+msgstr "кімнати"
+
+msgid "Photos coming soon"
+msgstr "Фото незабаром"
+
+msgid "Gallery"
+msgstr "Галерея"
+
+msgid "Room photos"
+msgstr "Фото номера"
+
+msgid "Previous photo"
+msgstr "Попереднє фото"
+
+msgid "Next photo"
+msgstr "Наступне фото"
+
+msgid "View photo"
+msgstr "Перегляд фото"
+
+msgid "Included"
+msgstr "Включено"
+
+msgid "Other options"
+msgstr "Інші варіанти"
+
+msgid "from"
+msgstr "від"
+
+msgid "/night"
+msgstr "/ніч"
+
+msgid "Book this room"
+msgstr "Забронювати цей номер"
+
+# spa page
+msgid "SPA:"
+msgstr "SPA:"
+
+msgid "Working hours:"
+msgstr "Години роботи:"
+
+msgid "SPA hero"
+msgstr "Герой SPA"
+
+msgid "SPA features"
+msgstr "Особливості SPA"
+
+msgid "Book SPA"
+msgstr "Забронювати SPA"
+
+msgid "SPA statistics"
+msgstr "Статистика SPA"
+
+msgid "m² SPA area"
+msgstr "м² площа SPA"
+
+msgid "m panoramic pool"
+msgstr "м панорамний басейн"
+
+msgid "wellness zones"
+msgstr "зони оздоровлення"
+
+msgid "working hours"
+msgstr "години роботи"
+
+msgid "Zones"
+msgstr "Зони"
+
+msgid "SPA & Wellness"
+msgstr "SPA та оздоровлення"
+
+msgid "SPA photos"
+msgstr "Фото SPA"
+
+msgid "Prices"
+msgstr "Ціни"
+
+msgid "SPA packages"
+msgstr "Пакети SPA"
+
+msgid "Choose a package that fits your rest"
+msgstr "Оберіть пакет, що підходить для вашого відпочинку"
+
+msgid "Package contents"
+msgstr "Склад пакету"
+
+msgid "Popular"
+msgstr "Популярний"
+
+msgid "Atmosphere"
+msgstr "Атмосфера"
+
+msgid "SPA gallery"
+msgstr "Галерея SPA"
+
+msgid "SPA photo"
+msgstr "Фото SPA"
+
+msgid "SPA information coming soon"
+msgstr "Інформація про SPA незабаром з'явиться"
+
+msgid "Book SPA weekend"
+msgstr "Забронюйте SPA-вихідні"
+
+msgid "Leave a request — our manager will get in touch"
+msgstr "Залиште заявку — наш менеджер зв'яжеться з вами"
+
+# services list
+msgid "Services coming soon"
+msgstr "Послуги незабаром з'являться"
+
+# services detail
+msgid "Other services"
+msgstr "Інші послуги"
+
+# offers list
+msgid "Offers coming soon"
+msgstr "Акції незабаром з'являться"
+
+# offers detail
+msgid "From %(date)s"
+msgstr "З %(date)s"
+
+msgid "Until %(date)s"
+msgstr "По %(date)s"
+
+msgid "Use this offer"
+msgstr "Скористатись пропозицією"
+
+msgid "Other offers"
+msgstr "Інші пропозиції"
+
+# booking modal
+msgid "Close"
+msgstr "Закрити"
+
+# booking form page
+msgid "Booking page title"
+msgstr "Бронювання"
+
+# booking success
+msgid "Thank you, %(name)s!"
+msgstr "Дякуємо, %(name)s!"
+
+msgid "Your request has been received. Our manager will contact you shortly to confirm the booking."
+msgstr "Вашу заявку отримано. Наш менеджер зв'яжеться з вами найближчим часом для підтвердження бронювання."
+
+msgid "Please fix the errors in the form and try again."
+msgstr "Будь ласка, виправте помилки у формі та спробуйте ще раз."
+
+# nights pluralization
+msgid "%(count)s night"
+msgid_plural "%(count)s nights"
+msgstr[0] "%(count)s ніч"
+msgstr[1] "%(count)s ночі"
+msgstr[2] "%(count)s ночей"
+
+# UAH currency
+msgid "UAH"
+msgstr "грн"

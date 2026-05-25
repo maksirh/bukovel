@@ -1,0 +1,316 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Panoramic SPA" %}{% endblock %}
+{% block meta_description %}{% trans "Panoramic SPA at Zatyshnyi Dvir hotel — pool, sauna, hammam, jacuzzi. Book a SPA weekend in Bukovel." %}{% endblock %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/spa.css' %}">
+<link rel="stylesheet" href="{% static 'css/pages/spa2.css' %}">
+{% endblock %}
+
+
+{% block content %}
+
+<!-- ===== HERO ===== -->
+<section class="spa-hero" aria-label="{% trans 'SPA hero' %}">
+  <div class="spa-hero__bg" aria-hidden="true">
+    {% if schedule.cover_image %}
+      <img
+        src="{{ schedule.cover_image.url }}"
+        alt=""
+        class="spa-hero__bg-img"
+        loading="eager"
+        fetchpriority="high"
+        data-parallax-fixed
+        data-parallax-fixed-speed="0.12"
+      >
+    {% endif %}
+    <div class="spa-hero__overlay"></div>
+  </div>
+  <div class="spa-hero__content container">
+    <span class="page-hero__eyebrow reveal reveal--up">{% trans "Recovery" %}</span>
+    <h1 class="spa-hero__title reveal reveal--up" data-reveal-delay="80">{% trans "Panoramic SPA" %}</h1>
+    {% if schedule %}
+      <p class="spa-hero__schedule reveal reveal--up" data-reveal-delay="160">
+        <span>{% trans "SPA:" %} {{ schedule.working_hours }}</span>
+        <span class="spa-hero__schedule-sep" aria-hidden="true">·</span>
+        <span>{% trans "Steam rooms:" %} {{ schedule.sauna_hours }}</span>
+      </p>
+    {% endif %}
+    <div class="spa-hero__actions reveal reveal--up" data-reveal-delay="240">
+      <button
+        type="button"
+        class="btn btn--gold btn--lg"
+        hx-get="{% url 'booking_modal' %}"
+        hx-target="#modal-root"
+        hx-swap="innerHTML"
+      >{% trans "Book SPA" %}</button>
+    </div>
+  </div>
+  <div class="spa-hero__scroll" aria-hidden="true">
+    <span class="spa-hero__scroll-line"></span>
+  </div>
+</section>
+
+<!-- ===== HIGHLIGHTS ===== -->
+{% with h1=schedule.highlight_1_label h2=schedule.highlight_2_label h3=schedule.highlight_3_label %}
+{% if h1 or h2 or h3 %}
+<section class="spa-highlights section--sm" aria-label="{% trans 'SPA features' %}">
+  <div class="container">
+    <ul class="spa-highlights__list">
+      {% if schedule.highlight_1_icon or h1 %}
+      <li class="spa-highlights__item reveal reveal--up">
+        {% if schedule.highlight_1_icon %}
+          <span class="spa-highlights__icon" aria-hidden="true">{{ schedule.highlight_1_icon }}</span>
+        {% endif %}
+        <span class="spa-highlights__label">{{ h1 }}</span>
+      </li>
+      {% endif %}
+      {% if schedule.highlight_2_icon or h2 %}
+      <li class="spa-highlights__item reveal reveal--up" data-reveal-delay="80">
+        {% if schedule.highlight_2_icon %}
+          <span class="spa-highlights__icon" aria-hidden="true">{{ schedule.highlight_2_icon }}</span>
+        {% endif %}
+        <span class="spa-highlights__label">{{ h2 }}</span>
+      </li>
+      {% endif %}
+      {% if schedule.highlight_3_icon or h3 %}
+      <li class="spa-highlights__item reveal reveal--up" data-reveal-delay="160">
+        {% if schedule.highlight_3_icon %}
+          <span class="spa-highlights__icon" aria-hidden="true">{{ schedule.highlight_3_icon }}</span>
+        {% endif %}
+        <span class="spa-highlights__label">{{ h3 }}</span>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+
+<!-- ===== STATS STRIP ===== -->
+<section class="spa-stats" aria-label="{% trans 'SPA statistics' %}">
+  <div class="container">
+    <ul class="spa-stats__list">
+      <li class="spa-stats__item reveal reveal--up">
+        <strong class="spa-stats__value">{{ schedule.stat_1_value }}</strong>
+        <span class="spa-stats__label">{{ schedule.stat_1_label }}</span>
+      </li>
+      <li class="spa-stats__item reveal reveal--up" data-reveal-delay="80">
+        <strong class="spa-stats__value">{{ schedule.stat_2_value }}</strong>
+        <span class="spa-stats__label">{{ schedule.stat_2_label }}</span>
+      </li>
+      <li class="spa-stats__item reveal reveal--up" data-reveal-delay="160">
+        <strong class="spa-stats__value">{{ schedule.stat_3_value }}</strong>
+        <span class="spa-stats__label">{{ schedule.stat_3_label }}</span>
+      </li>
+      <li class="spa-stats__item reveal reveal--up" data-reveal-delay="240">
+        <strong class="spa-stats__value">{{ schedule.working_hours|default:"08:00–22:00" }}</strong>
+        <span class="spa-stats__label">{% trans "working hours" %}</span>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== DESCRIPTION ===== -->
+{% if schedule.description %}
+<div class="section section--sm">
+  <div class="container">
+    <p class="spa-intro reveal reveal--up">{{ schedule.description|linebreaksbr }}</p>
+  </div>
+</div>
+{% endif %}
+
+<!-- ===== ZONES ===== -->
+<section class="section spa-zones" id="zones">
+  <div class="container">
+    <div class="section-header reveal reveal--up">
+      <span class="section-eyebrow">{% trans "Zones" %}</span>
+      <h2 class="section-title">{% trans "SPA & Wellness" %}</h2>
+    </div>
+    {% for zone in zones %}
+      <div class="spa-zone {% if forloop.even %}spa-zone--reverse{% endif %} reveal reveal--up">
+        <div class="spa-zone__media hover-zoom">
+          <span class="spa-zone__num" aria-hidden="true">{% if forloop.counter < 10 %}0{% endif %}{{ forloop.counter }}</span>
+          {% if zone.image %}
+            <a href="{{ zone.image.url }}"
+               data-lightbox
+               data-lightbox-group="spa-zones"
+               class="spa-zone__link"
+               aria-label="{{ zone.title }}"
+               hx-boost="false"
+            >
+              <img
+                src="{{ zone.image.url }}"
+                alt="{{ zone.title }}"
+                class="spa-zone__img hover-zoom__target"
+                {% if forloop.first %}fetchpriority="high"{% else %}loading="lazy"{% endif %}
+                width="680"
+                height="480"
+              >
+            </a>
+          {% else %}
+            <div class="spa-zone__img-placeholder">
+              <span>{{ zone.title }}</span>
+            </div>
+          {% endif %}
+        </div>
+        <div class="spa-zone__content">
+          <span class="spa-zone__eyebrow" aria-hidden="true">{% if forloop.counter < 10 %}0{% endif %}{{ forloop.counter }}</span>
+          <h3 class="spa-zone__title">{{ zone.title }}</h3>
+          <div class="spa-zone__desc">{{ zone.description|linebreaks }}</div>
+        </div>
+      </div>
+    {% empty %}
+      <p class="empty-state">{% trans "SPA information coming soon" %}</p>
+    {% endfor %}
+  </div>
+</section>
+
+<!-- ===== PHOTO STRIP ===== -->
+{% if gallery %}
+<div class="spa-photo-strip" role="region" aria-label="{% trans 'SPA photos' %}">
+  <div class="spa-photo-strip__track">
+    {% for photo in gallery %}
+      <div class="spa-photo-strip__item">
+        <a
+          href="{{ photo.image.url }}"
+          class="spa-photo-strip__link"
+          data-lightbox
+          data-lightbox-group="spa-strip"
+          aria-label="{% if photo.caption %}{{ photo.caption }}{% else %}{% trans 'SPA photo' %}{% endif %}"
+          hx-boost="false"
+        >
+          <img
+            src="{{ photo.image.url }}"
+            alt="{{ photo.caption }}"
+            class="spa-photo-strip__img"
+            loading="lazy"
+            width="440"
+            height="550"
+          >
+        </a>
+      </div>
+    {% endfor %}
+    {% for photo in gallery %}
+      <div class="spa-photo-strip__item" aria-hidden="true">
+        <img
+          src="{{ photo.image.url }}"
+          alt=""
+          class="spa-photo-strip__img"
+          loading="lazy"
+          width="440"
+          height="550"
+        >
+      </div>
+    {% endfor %}
+  </div>
+</div>
+{% endif %}
+
+<!-- ===== PACKAGES ===== -->
+{% if packages %}
+<section class="section section--beige spa-packages" id="packages">
+  <div class="container">
+    <div class="section-header reveal reveal--up">
+      <span class="section-eyebrow">{% trans "Prices" %}</span>
+      <h2 class="section-title">{% trans "SPA packages" %}</h2>
+      <p class="section-desc">{% trans "Choose a package that fits your rest" %}</p>
+    </div>
+    <div class="spa-packages__grid">
+      {% for pkg in packages %}
+        <div class="spa-package{% if pkg.is_popular %} spa-package--popular{% endif %} reveal reveal--up" data-reveal-delay="{{ forloop.counter0 }}00">
+          {% if pkg.is_popular %}
+            <span class="spa-package__badge">{% trans "Popular" %}</span>
+          {% endif %}
+          <div class="spa-package__header">
+            <h3 class="spa-package__title">{{ pkg.title }}</h3>
+            <div class="spa-package__meta">
+              <span class="spa-package__duration">{{ pkg.duration }}</span>
+            </div>
+          </div>
+          <div class="spa-package__price">
+            <strong class="spa-package__price-value">{{ pkg.price }}&thinsp;₴</strong>
+          </div>
+          <ul class="spa-package__features" aria-label="{% trans 'Package contents' %}">
+            {% for line in pkg.features_list %}
+              <li class="spa-package__feature">
+                <svg class="spa-package__check" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                  <path d="M3 8l3.5 3.5L13 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                {{ line }}
+              </li>
+            {% endfor %}
+          </ul>
+          <button
+            type="button"
+            class="btn {% if pkg.is_popular %}btn--gold{% else %}btn--outline{% endif %} btn--full spa-package__cta"
+            hx-get="{% url 'booking_modal' %}"
+            hx-target="#modal-root"
+            hx-swap="innerHTML"
+            aria-label="{% blocktrans with title=pkg.title %}Book {{ title }}{% endblocktrans %}"
+          >{% trans "Book" %}</button>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ===== GALLERY ===== -->
+{% if gallery %}
+<section class="section spa-gallery-section" id="gallery">
+  <div class="container">
+    <div class="section-header reveal reveal--up">
+      <span class="section-eyebrow">{% trans "Atmosphere" %}</span>
+      <h2 class="section-title">{% trans "SPA gallery" %}</h2>
+    </div>
+    <div class="spa-gallery">
+      {% for photo in gallery %}
+        <a
+          href="{{ photo.image.url }}"
+          data-lightbox
+          data-lightbox-group="spa-gallery"
+          class="spa-gallery__item hover-zoom reveal reveal--up"
+          data-reveal-delay="{{ forloop.counter0 }}00"
+          aria-label="{% if photo.caption %}{{ photo.caption }}{% else %}{% trans 'SPA photo' %}{% endif %}"
+          hx-boost="false"
+        >
+          <img
+            src="{{ photo.image.url }}"
+            alt="{{ photo.caption }}"
+            class="spa-gallery__img hover-zoom__target"
+            loading="lazy"
+            width="480"
+            height="360"
+          >
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ===== CTA ===== -->
+<section class="section section--dark spa-cta-section">
+  <div class="container">
+    <div class="spa-cta reveal reveal--up">
+      <div class="spa-cta__text">
+        <h2 class="spa-cta__title">{% trans "Book SPA weekend" %}</h2>
+        <p class="spa-cta__subtitle">{% trans "Leave a request — our manager will get in touch" %}</p>
+        {% if site_settings.phone %}
+          <a href="tel:{{ site_settings.phone }}" class="spa-cta__phone">{{ site_settings.phone }}</a>
+        {% endif %}
+      </div>
+      <button
+        type="button"
+        class="btn btn--gold btn--lg"
+        hx-get="{% url 'booking_modal' %}"
+        hx-target="#modal-root"
+        hx-swap="innerHTML"
+      >{% trans "Book" %}</button>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

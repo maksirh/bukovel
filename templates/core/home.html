@@ -1,0 +1,251 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/home.css' %}">
+<link rel="stylesheet" href="{% static 'css/pages/home2.css' %}">
+{% endblock %}
+
+{% block body_class %}has-hero{% endblock %}
+
+{% block content %}
+
+<!-- ===== HERO ===== -->
+<section class="hero" id="hero">
+  <!-- Fixed background wrapper: stays pinned to viewport across all scroll -->
+  <div class="hero__fixed-bg" aria-hidden="true">
+    {% if site_settings.hero_video %}
+      <video class="hero__video" autoplay muted loop playsinline poster="{% if site_settings.hero_video_poster %}{{ site_settings.hero_video_poster.url }}{% endif %}">
+        <source src="{{ site_settings.hero_video.url }}" type="video/mp4">
+      </video>
+    {% elif hero_slides.0.image %}
+      <img
+        class="hero__bg-img"
+        src="{{ hero_slides.0.image.url }}"
+        alt=""
+        loading="eager"
+        fetchpriority="high"
+      >
+    {% endif %}
+    <div class="hero__overlay"></div>
+  </div>
+
+  {% if hero_slides %}
+    <div class="hero__content">
+      {% with hero_slides.0 as slide %}
+        <p class="hero__eyebrow reveal reveal--up">{{ site_settings.hero_eyebrow|default:"SPA Resort • Буковель" }}</p>
+        <h1 class="hero__title reveal reveal--up" data-reveal-delay="100">{{ slide.title }}</h1>
+        {% if slide.subtitle %}
+          <p class="hero__subtitle reveal reveal--up" data-reveal-delay="200">{{ slide.subtitle }}</p>
+        {% endif %}
+        {% if slide.cta_text %}
+          <div class="hero__actions reveal reveal--up" data-reveal-delay="300">
+            <button
+              type="button"
+              class="btn btn--gold btn--lg"
+              hx-get="{% url 'booking_modal' %}"
+              hx-target="#modal-root"
+              hx-swap="innerHTML"
+            >{{ slide.cta_text }}</button>
+            <a href="{% url 'room_list' %}" class="btn btn--ghost btn--lg">{% trans "Our rooms" %}</a>
+          </div>
+        {% endif %}
+      {% endwith %}
+    </div>
+  {% else %}
+    <div class="hero__content">
+      <p class="hero__eyebrow reveal reveal--up">{{ site_settings.hero_eyebrow|default:"SPA Resort • Буковель" }}</p>
+      <h1 class="hero__title reveal reveal--up" data-reveal-delay="100">{{ site_settings.site_name }}</h1>
+      <p class="hero__subtitle reveal reveal--up" data-reveal-delay="200">Преміум готель та SPA у серці Буковелю</p>
+      <div class="hero__actions reveal reveal--up" data-reveal-delay="300">
+        <button
+          type="button"
+          class="btn btn--gold btn--lg"
+          hx-get="{% url 'booking_modal' %}"
+          hx-target="#modal-root"
+          hx-swap="innerHTML"
+        >{% trans "Book" %}</button>
+        <a href="{% url 'room_list' %}" class="btn btn--ghost btn--lg">{% trans "Our rooms" %}</a>
+      </div>
+    </div>
+  {% endif %}
+
+  <div class="hero__scroll-hint" aria-hidden="true">
+    <span class="hero__scroll-line"></span>
+    <span class="hero__scroll-label">scroll</span>
+  </div>
+</section>
+
+<!-- ===== STATS ===== -->
+{% if stat_items %}
+<section class="home-stats section--sm">
+  <div class="container">
+    <ul class="home-stats__list">
+      {% for stat in stat_items %}
+      <li class="home-stats__item reveal reveal--up" data-reveal-delay="{{ forloop.counter0 }}00">
+        <strong class="home-stats__value">{{ stat.value }}</strong>
+        <span class="home-stats__label">{{ stat.label }}</span>
+      </li>
+      {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endif %}
+
+<!-- ===== ROOMS ===== -->
+<section class="home-rooms section" id="rooms">
+  <div class="container">
+    <div class="section-header reveal reveal--up">
+      <span class="section-eyebrow">{% trans "Apartments" %}</span>
+      <h2 class="section-title">{% trans "Our rooms" %}</h2>
+      <p class="section-desc">{% trans "From cozy studios to exclusive apartments with panoramic terraces" %}</p>
+    </div>
+    <div class="rooms-carousel" data-slider id="rooms-grid">
+      <div class="rooms-carousel__track" data-slider-track>
+        {% for room in rooms %}
+          {% if forloop.counter0|divisibleby:4 %}<div class="rooms-carousel__slide" data-slider-slide>{% endif %}
+          {% include 'partials/room_card.html' %}
+          {% if forloop.counter|divisibleby:4 or forloop.last %}</div>{% endif %}
+        {% empty %}
+          <p class="empty-state">{% trans "Rooms coming soon" %}</p>
+        {% endfor %}
+      </div>
+      <div class="rooms-carousel__footer">
+        <div class="rooms-carousel__controls">
+          <button class="rooms-carousel__btn" data-slider-prev aria-label="{% trans 'Previous' %}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="rooms-carousel__btn" data-slider-next aria-label="{% trans 'Next' %}">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <a href="{% url 'room_list' %}" class="btn btn--outline">{% trans "All rooms" %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SPA ===== -->
+<section class="home-spa section section--dark" id="spa">
+  <div class="container">
+    <div class="home-spa__layout">
+      <div class="home-spa__text">
+        <span class="section-eyebrow section-eyebrow--light">{% trans "Recovery" %}</span>
+        <h2 class="section-title section-title--light reveal reveal--up">{% trans "Panoramic SPA" %}</h2>
+        <p class="home-spa__schedule reveal reveal--up" data-reveal-delay="100">
+          {% if spa_schedule %}
+            {% trans "SPA hours:" %} {{ spa_schedule.working_hours }}<br>
+            {% trans "Steam rooms:" %} {{ spa_schedule.sauna_hours }}
+          {% endif %}
+        </p>
+        <ul class="home-spa__features reveal reveal--up" data-reveal-delay="150">
+          {% for zone in spa_zones %}
+            <li class="home-spa__feature">{{ zone.title }}</li>
+          {% empty %}
+            <li class="home-spa__feature">{% trans "Panoramic pool 20×8m" %}</li>
+            <li class="home-spa__feature">{% trans "Finnish saunas" %}</li>
+            <li class="home-spa__feature">{% trans "Hammam" %}</li>
+            <li class="home-spa__feature">{% trans "Three jacuzzis" %}</li>
+          {% endfor %}
+        </ul>
+        <a href="{% url 'spa' %}" class="btn btn--gold reveal reveal--up" data-reveal-delay="250">{% trans "Learn more about SPA" %}</a>
+      </div>
+      <div class="home-spa__media reveal reveal--scale" data-reveal-delay="100">
+        {% if spa_schedule.cover_image %}
+          <img src="{{ spa_schedule.cover_image.url }}" alt="{% trans 'Panoramic SPA' %}" class="home-spa__img" loading="lazy" width="680" height="500">
+        {% else %}
+          <div class="home-spa__img-placeholder">
+            <span>SPA</span>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== RESTAURANT ===== -->
+<section class="home-restaurant section" id="restaurant">
+  <div class="container">
+    <div class="home-restaurant__layout">
+      <div class="home-restaurant__media reveal reveal--scale">
+        {% if restaurant_info.cover_image %}
+          <img src="{{ restaurant_info.cover_image.url }}" alt="{{ restaurant_info.title }}" class="home-restaurant__img" loading="lazy" width="680" height="500">
+        {% else %}
+          <div class="home-restaurant__img-placeholder">
+            <span>{% trans "Restaurant" %}</span>
+          </div>
+        {% endif %}
+      </div>
+      <div class="home-restaurant__text">
+        <span class="section-eyebrow">{% trans "Gastronomy" %}</span>
+        {% trans "Meat and wine restaurant" as default_restaurant_title %}
+        <h2 class="section-title reveal reveal--up">{{ restaurant_info.title|default:default_restaurant_title }}</h2>
+        <div class="home-restaurant__hours reveal reveal--up" data-reveal-delay="100">
+          <span>{{ restaurant_info.opening_hours|default:"13:00 – 23:00" }}</span>
+          <span class="home-restaurant__hours-sep">·</span>
+          <span>{% trans "Breakfasts:" %} {{ restaurant_info.breakfast_hours|default:"08:00 – 11:00" }}</span>
+        </div>
+        {% if restaurant_info.description %}
+          <p class="home-restaurant__desc reveal reveal--up" data-reveal-delay="150">{{ restaurant_info.description|truncatewords:40 }}</p>
+        {% endif %}
+        <a href="{% url 'restaurant' %}" class="btn btn--outline reveal reveal--up" data-reveal-delay="250">{% trans "Restaurant menu" %}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SERVICES ===== -->
+{% if services %}
+<section class="home-services section section--beige" id="services">
+  <div class="container">
+    <div class="section-header reveal reveal--up">
+      <span class="section-eyebrow">{% trans "Amenities" %}</span>
+      <h2 class="section-title">{% trans "Additional services" %}</h2>
+    </div>
+    <div class="services-grid">
+      {% for service in services %}
+        <a href="{{ service.get_absolute_url }}" class="service-card reveal reveal--up" data-reveal-delay="{{ forloop.counter0 }}00">
+          {% if service.icon %}
+            <span class="service-card__icon" aria-hidden="true">{{ service.icon }}</span>
+          {% endif %}
+          <h3 class="service-card__title">{{ service.title }}</h3>
+          <p class="service-card__desc">{{ service.short_description|truncatewords:12 }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ===== OFFERS ===== -->
+{% if offers %}
+<section class="home-offers section" id="offers">
+  <div class="container">
+    <div class="section-header reveal reveal--up">
+      <span class="section-eyebrow">{% trans "Profitable" %}</span>
+      <h2 class="section-title">{% trans "Special offers" %}</h2>
+    </div>
+    <div class="offers-grid">
+      {% for offer in offers %}
+        {% include 'partials/offer_card.html' %}
+      {% endfor %}
+    </div>
+    <div class="section-cta reveal reveal--up">
+      <a href="{% url 'offer_list' %}" class="btn btn--outline">{% trans "All offers" %}</a>
+    </div>
+  </div>
+</section>
+{% endif %}
+
+<!-- ===== BOOKING CTA ===== -->
+<section class="home-booking-cta section section--dark" id="booking">
+  <div class="container">
+    <div class="home-booking-cta__inner reveal reveal--up">
+      <h2 class="home-booking-cta__title">{% trans "Book your holiday" %}</h2>
+      <p class="home-booking-cta__subtitle">{% trans "Leave a request — our manager will contact you within 30 minutes" %}</p>
+      {% include 'partials/booking_form.html' with form=booking_form %}
+    </div>
+  </div>
+</section>
+
+{% endblock %}

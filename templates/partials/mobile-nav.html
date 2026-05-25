@@ -1,0 +1,43 @@
+{% load static i18n %}
+{% get_current_language as CURRENT_LANG %}
+<nav class="mobile-nav" id="mobile-nav" aria-label="{% trans 'Mobile navigation' %}" aria-hidden="true">
+  <div class="mobile-nav__overlay" id="mobile-nav-overlay"></div>
+  <div class="mobile-nav__panel">
+    <button type="button" class="mobile-nav__close" id="mobile-nav-close" aria-label="{% trans 'Close menu' %}">&times;</button>
+
+    <div class="mobile-nav__brand">
+      <span class="mobile-nav__logo">{{ site_settings.site_name }}</span>
+    </div>
+
+    <ul class="mobile-nav__list">
+      <li><a href="{% url 'room_list' %}" class="mobile-nav__link">{% trans "Rooms" %}</a></li>
+      <li><a href="{% url 'spa' %}" class="mobile-nav__link">SPA</a></li>
+      <li><a href="{% url 'restaurant' %}" class="mobile-nav__link">{% trans "Restaurant" %}</a></li>
+      <li><a href="{% url 'service_list' %}" class="mobile-nav__link">{% trans "Services" %}</a></li>
+      <li><a href="{% url 'offer_list' %}" class="mobile-nav__link">{% trans "Offers" %}</a></li>
+      <li><a href="{% url 'about' %}" class="mobile-nav__link">{% trans "About us" %}</a></li>
+      <li><a href="{% url 'contacts' %}" class="mobile-nav__link">{% trans "Contacts" %}</a></li>
+    </ul>
+
+    <div class="mobile-nav__footer">
+      {% if site_settings.phone %}
+        <a href="tel:{{ site_settings.phone }}" class="mobile-nav__phone">{{ site_settings.phone }}</a>
+      {% endif %}
+
+      <div class="lang-switcher lang-switcher--mobile">
+        <form action="{% url 'set_language' %}" method="post" hx-boost="false">
+          {% csrf_token %}
+          <input name="next" type="hidden" value="{{ request.get_full_path }}">
+          <button type="submit" name="language" value="uk"
+            class="lang-switcher__btn{% if CURRENT_LANG == 'uk' %} is-active{% endif %}"
+            aria-label="Українська">UK</button>
+          <button type="submit" name="language" value="en"
+            class="lang-switcher__btn{% if CURRENT_LANG == 'en' %} is-active{% endif %}"
+            aria-label="English">EN</button>
+        </form>
+      </div>
+
+      <a href="{% url 'booking' %}" class="btn btn--gold btn--full mobile-nav__cta">{% trans "Book" %}</a>
+    </div>
+  </div>
+</nav>

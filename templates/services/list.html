@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{% trans "Additional services" %}{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    <h1 class="page-hero__title reveal reveal--up">{% trans "Additional services" %}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="services-grid services-grid--page">
+      {% for service in services %}
+        <a href="{{ service.get_absolute_url }}" class="service-card service-card--lg reveal reveal--up" data-reveal-delay="{{ forloop.counter0 }}00">
+          {% if service.image %}
+            <div class="service-card__img-wrap">
+              <img src="{{ service.image.url }}" alt="{{ service.title }}" class="service-card__img" loading="lazy" width="600" height="380">
+            </div>
+          {% else %}
+            <div class="service-card__img-wrap service-card__img-placeholder" aria-hidden="true">
+              {% if service.icon %}
+                <span class="service-card__placeholder-icon">{{ service.icon }}</span>
+              {% else %}
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="service-card__placeholder-svg" fill="none" stroke="currentColor" stroke-linejoin="round">
+                  <path d="M24 6 L2 42 H46 Z" stroke-width="2"/>
+                  <path d="M16 42 L24 24 L32 42" stroke-width="1.5"/>
+                </svg>
+              {% endif %}
+            </div>
+          {% endif %}
+          <div class="service-card__body">
+            {% if service.icon %}
+              <span class="service-card__icon" aria-hidden="true">{{ service.icon }}</span>
+            {% endif %}
+            <h2 class="service-card__title">{{ service.title }}</h2>
+            <p class="service-card__desc">{{ service.short_description }}</p>
+            <span class="btn btn--outline btn--sm">{% trans "More details" %}</span>
+          </div>
+        </a>
+      {% empty %}
+        <p class="empty-state">{% trans "Services coming soon" %}</p>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock %}

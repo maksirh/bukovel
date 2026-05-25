@@ -1,0 +1,412 @@
+# English translations for Bukovel project.
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: en\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+# base.html
+msgid "Hotel in Bukovel"
+msgstr "Hotel in Bukovel"
+
+msgid "Premium hotel and SPA in Bukovel — Zatyshnyi Dvir. Apartments, panoramic SPA, restaurant."
+msgstr "Premium hotel and SPA in Bukovel — Zatyshnyi Dvir. Apartments, panoramic SPA, restaurant."
+
+# header / nav
+msgid "Main navigation"
+msgstr "Main navigation"
+
+msgid "Rooms"
+msgstr "Rooms"
+
+msgid "Restaurant"
+msgstr "Restaurant"
+
+msgid "Services"
+msgstr "Services"
+
+msgid "Offers"
+msgstr "Offers"
+
+msgid "Contacts"
+msgstr "Contacts"
+
+msgid "Book a room"
+msgstr "Book a room"
+
+msgid "Book"
+msgstr "Book"
+
+msgid "Menu"
+msgstr "Menu"
+
+# footer
+msgid "Footer navigation"
+msgstr "Footer navigation"
+
+msgid "Hotel"
+msgstr "Hotel"
+
+msgid "Additional navigation"
+msgstr "Additional navigation"
+
+msgid "Information"
+msgstr "Information"
+
+msgid "About us"
+msgstr "About us"
+
+msgid "Booking"
+msgstr "Booking"
+
+msgid "Check-in:"
+msgstr "Check-in:"
+
+msgid "Check-out:"
+msgstr "Check-out:"
+
+msgid "All rights reserved."
+msgstr "All rights reserved."
+
+# mobile-nav
+msgid "Mobile navigation"
+msgstr "Mobile navigation"
+
+msgid "Close menu"
+msgstr "Close menu"
+
+# booking form
+msgid "Your name *"
+msgstr "Your name *"
+
+msgid "Phone *"
+msgstr "Phone *"
+
+msgid "Check-in date *"
+msgstr "Check-in date *"
+
+msgid "Check-out date *"
+msgstr "Check-out date *"
+
+msgid "Adults"
+msgstr "Adults"
+
+msgid "Children"
+msgstr "Children"
+
+msgid "Room type"
+msgstr "Room type"
+
+msgid "Special requests"
+msgstr "Special requests"
+
+msgid "Submit request"
+msgstr "Submit request"
+
+# room card
+msgid "guests."
+msgstr "guests."
+
+msgid "from %(price)s UAH/night"
+msgstr "from %(price)s UAH/night"
+
+msgid "More details"
+msgstr "More details"
+
+# offer card
+msgid "until %(date)s"
+msgstr "until %(date)s"
+
+msgid "Learn more"
+msgstr "Learn more"
+
+# home page
+msgid "Our rooms"
+msgstr "Our rooms"
+
+msgid "Rooms and apartments"
+msgstr "Rooms and apartments"
+
+msgid "Panoramic pool, m"
+msgstr "Panoramic pool, m"
+
+msgid "Service level"
+msgstr "Service level"
+
+msgid "To ski lift 7R"
+msgstr "To ski lift 7R"
+
+msgid "Apartments"
+msgstr "Apartments"
+
+msgid "From cozy studios to exclusive apartments with panoramic terraces"
+msgstr "From cozy studios to exclusive apartments with panoramic terraces"
+
+msgid "Rooms coming soon"
+msgstr "Rooms coming soon"
+
+msgid "All rooms"
+msgstr "All rooms"
+
+msgid "Recovery"
+msgstr "Wellness"
+
+msgid "Panoramic SPA"
+msgstr "Panoramic SPA"
+
+msgid "SPA hours:"
+msgstr "SPA hours:"
+
+msgid "Steam rooms:"
+msgstr "Steam rooms:"
+
+msgid "Panoramic pool 20×8m"
+msgstr "Panoramic pool 20×8m"
+
+msgid "Finnish saunas"
+msgstr "Finnish saunas"
+
+msgid "Hammam"
+msgstr "Hammam"
+
+msgid "Three jacuzzis"
+msgstr "Three jacuzzis"
+
+msgid "Learn more about SPA"
+msgstr "Learn more about SPA"
+
+msgid "Gastronomy"
+msgstr "Gastronomy"
+
+msgid "Meat and wine restaurant"
+msgstr "Meat and wine restaurant"
+
+msgid "Breakfasts:"
+msgstr "Breakfasts:"
+
+msgid "Restaurant menu"
+msgstr "Restaurant menu"
+
+msgid "Amenities"
+msgstr "Amenities"
+
+msgid "Additional services"
+msgstr "Additional services"
+
+msgid "Special offers"
+msgstr "Special offers"
+
+msgid "Profitable"
+msgstr "Best Value"
+
+msgid "All offers"
+msgstr "All offers"
+
+msgid "Book your holiday"
+msgstr "Book your stay"
+
+msgid "Leave a request — our manager will contact you within 30 minutes"
+msgstr "Leave a request — our manager will contact you within 30 minutes"
+
+# about page
+msgid "About us page title"
+msgstr "About us"
+
+msgid "About the hotel"
+msgstr "About the hotel"
+
+msgid "Check-in"
+msgstr "Check-in"
+
+msgid "Check-out"
+msgstr "Check-out"
+
+msgid "Zatyshnyi Dvir hotel is located in picturesque Bukovel — the largest ski resort in Ukraine. We combine premium-level comfort with the warm atmosphere of Carpathian coziness."
+msgstr "Zatyshnyi Dvir hotel is located in picturesque Bukovel — the largest ski resort in Ukraine. We combine premium-level comfort with the warm atmosphere of Carpathian coziness."
+
+# contacts page
+msgid "Phone"
+msgstr "Phone"
+
+msgid "Address"
+msgstr "Address"
+
+msgid "Working hours"
+msgstr "Working hours"
+
+# rooms list
+msgid "4 accommodation types for couples, families and large groups"
+msgstr "4 accommodation types for couples, families and large groups"
+
+# rooms detail
+msgid "up to %(max_guests)s guests"
+msgstr "up to %(max_guests)s guests"
+
+msgid "rooms"
+msgstr "rooms"
+
+msgid "Photos coming soon"
+msgstr "Photos coming soon"
+
+msgid "Gallery"
+msgstr "Gallery"
+
+msgid "Room photos"
+msgstr "Room photos"
+
+msgid "Previous photo"
+msgstr "Previous photo"
+
+msgid "Next photo"
+msgstr "Next photo"
+
+msgid "View photo"
+msgstr "View photo"
+
+msgid "Included"
+msgstr "Included"
+
+msgid "Other options"
+msgstr "Other options"
+
+msgid "from"
+msgstr "from"
+
+msgid "/night"
+msgstr "/night"
+
+msgid "Book this room"
+msgstr "Book this room"
+
+# spa page
+msgid "Panoramic SPA at Zatyshnyi Dvir hotel — pool, sauna, hammam, jacuzzi. Book a SPA weekend in Bukovel."
+msgstr "Panoramic SPA at Zatyshnyi Dvir hotel — pool, sauna, hammam, jacuzzi. Book a SPA weekend in Bukovel."
+
+msgid "SPA hero"
+msgstr "SPA hero"
+
+msgid "SPA:"
+msgstr "SPA:"
+
+msgid "Book SPA"
+msgstr "Book SPA"
+
+msgid "SPA features"
+msgstr "SPA features"
+
+msgid "SPA statistics"
+msgstr "SPA statistics"
+
+msgid "m² SPA area"
+msgstr "m² SPA area"
+
+msgid "m panoramic pool"
+msgstr "m panoramic pool"
+
+msgid "wellness zones"
+msgstr "wellness zones"
+
+msgid "working hours"
+msgstr "working hours"
+
+msgid "Working hours:"
+msgstr "Working hours:"
+
+msgid "Zones"
+msgstr "Zones"
+
+msgid "SPA & Wellness"
+msgstr "SPA & Wellness"
+
+msgid "SPA information coming soon"
+msgstr "SPA information coming soon"
+
+msgid "SPA photos"
+msgstr "SPA photos"
+
+msgid "SPA photo"
+msgstr "SPA photo"
+
+msgid "Prices"
+msgstr "Prices"
+
+msgid "SPA packages"
+msgstr "SPA packages"
+
+msgid "Choose a package that fits your rest"
+msgstr "Choose a package that suits your rest"
+
+msgid "Popular"
+msgstr "Popular"
+
+msgid "Package contents"
+msgstr "Package contents"
+
+msgid "Book %(title)s"
+msgstr "Book %(title)s"
+
+msgid "Atmosphere"
+msgstr "Atmosphere"
+
+msgid "SPA gallery"
+msgstr "SPA gallery"
+
+msgid "Book SPA weekend"
+msgstr "Book a SPA weekend"
+
+msgid "Leave a request — our manager will get in touch"
+msgstr "Leave a request — our manager will get back to you"
+
+# services list
+msgid "Services coming soon"
+msgstr "Services coming soon"
+
+# services detail
+msgid "Other services"
+msgstr "Other services"
+
+# offers list
+msgid "Offers coming soon"
+msgstr "Offers coming soon"
+
+# offers detail
+msgid "From %(date)s"
+msgstr "From %(date)s"
+
+msgid "Until %(date)s"
+msgstr "Until %(date)s"
+
+msgid "Use this offer"
+msgstr "Use this offer"
+
+msgid "Other offers"
+msgstr "Other offers"
+
+# booking modal
+msgid "Close"
+msgstr "Close"
+
+# booking form page
+msgid "Booking page title"
+msgstr "Booking"
+
+# booking success
+msgid "Thank you, %(name)s!"
+msgstr "Thank you, %(name)s!"
+
+msgid "Your request has been received. Our manager will contact you shortly to confirm the booking."
+msgstr "Your request has been received. Our manager will contact you shortly to confirm the booking."
+
+msgid "Please fix the errors in the form and try again."
+msgstr "Please fix the errors in the form and try again."
+
+# nights pluralization
+msgid "%(count)s night"
+msgid_plural "%(count)s nights"
+msgstr[0] "%(count)s night"
+msgstr[1] "%(count)s nights"
+
+# UAH currency
+msgid "UAH"
+msgstr "UAH"

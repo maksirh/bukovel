@@ -1,0 +1,13 @@
+{% load static i18n %}
+<div class="modal is-open" id="booking-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+  <div class="modal__overlay"></div>
+  <div class="modal__panel">
+    <div class="modal__header">
+      <h2 class="modal__title" id="modal-title">{% trans "Book a room" %}</h2>
+      <button type="button" class="modal__close" data-modal-close aria-label="{% trans 'Close' %}">&times;</button>
+    </div>
+    <div class="modal__body">
+      {% include 'partials/booking_form.html' with result_id='booking-result-modal' %}
+    </div>
+  </div>
+</div>

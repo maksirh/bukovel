@@ -1,0 +1,322 @@
+/* ---- HERO BANNER ---- */
+.room-hero {
+  position: relative;
+  background-color: var(--clr-ink);
+  overflow: hidden;
+}
+
+.room-hero__img {
+  width: 100%;
+  aspect-ratio: 4/3;
+  object-fit: cover;
+  display: block;
+}
+
+@media (min-width: 600px) {
+  .room-hero__img { aspect-ratio: 16/8; }
+}
+
+@media (min-width: 1024px) {
+  .room-hero__img { aspect-ratio: 16/6; }
+}
+
+.room-hero__placeholder {
+  aspect-ratio: 4/3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--clr-beige);
+  color: var(--clr-text-muted);
+  font-family: var(--font-serif);
+  font-size: var(--fs-xl);
+}
+
+@media (min-width: 600px) {
+  .room-hero__placeholder { aspect-ratio: 16/8; }
+}
+
+/* ---- DETAIL LAYOUT ---- */
+.room-detail-layout {
+  display: grid;
+  gap: var(--sp-12);
+  align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .room-detail-layout {
+    grid-template-columns: 1fr 400px;
+  }
+}
+
+/* ---- MAIN ---- */
+.room-detail__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-4);
+}
+
+.room-detail__title {
+  font-family: var(--font-serif);
+  font-size: clamp(var(--fs-2xl), 4vw, var(--fs-3xl));
+  font-weight: var(--fw-light);
+  margin-bottom: var(--sp-6);
+}
+
+.room-detail__desc {
+  color: var(--clr-text);
+  line-height: var(--lh-loose);
+  margin-bottom: var(--sp-8);
+}
+
+/* ---- FEATURES ---- */
+.room-features__title {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semi);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--clr-text-muted);
+  margin-bottom: var(--sp-4);
+}
+
+.room-features__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-3);
+}
+
+@media (min-width: 768px) {
+  .room-features__list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.room-features__item {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-2);
+  font-size: var(--fs-sm);
+  color: var(--clr-text);
+}
+
+.room-features__icon {
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}
+
+/* ---- OTHER ROOMS ---- */
+.other-rooms {
+  margin-top: var(--sp-12);
+  padding-top: var(--sp-8);
+  border-top: 1px solid var(--clr-border);
+}
+
+.other-rooms__title {
+  font-size: var(--fs-xs);
+  font-weight: var(--fw-semi);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--clr-text-muted);
+  margin-bottom: var(--sp-5);
+}
+
+.other-rooms__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--sp-4);
+}
+
+@media (min-width: 480px) {
+  .other-rooms__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 640px) {
+  .other-rooms__grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.other-room-card {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  transition: box-shadow var(--duration-base);
+}
+
+.other-room-card:hover {
+  box-shadow: var(--shadow-md);
+}
+
+.other-room-card__img {
+  width: 100%;
+  aspect-ratio: 3/2;
+  object-fit: cover;
+}
+
+.other-room-card__info {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding: var(--sp-3);
+}
+
+.other-room-card__title {
+  font-size: var(--fs-sm);
+  font-weight: var(--fw-medium);
+  line-height: var(--lh-snug);
+}
+
+.other-room-card__meta {
+  font-size: var(--fs-xs);
+  color: var(--clr-text-muted);
+}
+
+/* ---- BOOKING ASIDE ---- */
+.room-detail__aside {
+  position: sticky;
+  top: calc(var(--header-total) + var(--sp-6));
+}
+
+.room-detail__booking-card {
+  border: 1px solid var(--clr-border);
+  border-radius: var(--radius-md);
+  padding: var(--sp-6);
+  background-color: var(--clr-beige-light);
+}
+
+.room-detail__price {
+  display: flex;
+  align-items: baseline;
+  gap: var(--sp-2);
+  margin-bottom: var(--sp-5);
+  padding-bottom: var(--sp-4);
+  border-bottom: 1px solid var(--clr-border);
+}
+
+.room-detail__price-label {
+  font-size: var(--fs-xs);
+  color: var(--clr-text-muted);
+}
+
+.room-detail__price-value {
+  font-family: var(--font-serif);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-light);
+  color: var(--clr-ink);
+}
+
+.room-detail__price-unit {
+  font-size: var(--fs-sm);
+  color: var(--clr-text-muted);
+}
+
+.room-detail__booking-title {
+  font-family: var(--font-serif);
+  font-size: var(--fs-lg);
+  font-weight: var(--fw-light);
+  margin-bottom: var(--sp-5);
+}
+
+/* ---- PHOTO STRIP (auto-scroll marquee — same style as restaurant) ---- */
+.room-photo-strip {
+  overflow: hidden;
+  background-color: var(--clr-ink);
+  padding-block: var(--sp-6);
+  margin-top: var(--sp-10);
+  margin-inline: var(--container-pad);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+}
+
+@media (min-width: 768px) {
+  .room-photo-strip {
+    margin-top: var(--sp-16);
+  }
+}
+
+.room-photo-strip__track {
+  display: flex;
+  gap: var(--sp-3);
+  width: max-content;
+  will-change: transform;
+  animation: room-strip-scroll 55s linear infinite;
+}
+
+@keyframes room-strip-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+@media (hover: hover) {
+  .room-photo-strip:hover .room-photo-strip__track {
+    animation-play-state: paused;
+  }
+}
+
+.room-photo-strip__item {
+  flex-shrink: 0;
+  width: 320px;
+  height: 213px;
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+@media (min-width: 600px) {
+  .room-photo-strip__item {
+    width: 440px;
+    height: 293px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .room-photo-strip__item {
+    width: 540px;
+    height: 360px;
+  }
+}
+
+.room-photo-strip__link {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.room-photo-strip__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform var(--duration-slow) var(--ease-out);
+}
+
+/* cursor only on linked (interactive) images */
+.room-photo-strip__link .room-photo-strip__img {
+  cursor: zoom-in;
+}
+
+@media (hover: hover) {
+  .room-photo-strip__item:not([aria-hidden]):hover .room-photo-strip__img {
+    transform: scale(1.05);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .room-photo-strip__track {
+    animation: none;
+    overflow-x: auto;
+    width: 100%;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .room-photo-strip__track::-webkit-scrollbar {
+    display: none;
+  }
+  .room-photo-strip__item[aria-hidden="true"] {
+    display: none;
+  }
+}

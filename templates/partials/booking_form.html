@@ -1,0 +1,103 @@
+{% load static i18n %}
+{% with bid=result_id|default:"booking-result" %}
+<div id="{{ bid }}">
+  <form
+    class="booking-form"
+    hx-post="{% url 'booking_submit' %}"
+    hx-target="#{{ bid }}"
+    hx-swap="outerHTML"
+    hx-indicator="#{{ bid }}-submit"
+    novalidate
+  >
+    {% csrf_token %}
+    <input type="hidden" name="result_id" value="{{ bid }}">
+
+    <div class="booking-form__grid">
+      <div class="form__group">
+        <label class="form__label" for="id_full_name">{% trans "Your name *" %}</label>
+        {{ form.full_name }}
+        {% if form.full_name.errors %}
+          <span class="form__error" role="alert">{{ form.full_name.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <div class="form__group">
+        <label class="form__label" for="id_phone">{% trans "Phone *" %}</label>
+        {{ form.phone }}
+        {% if form.phone.errors %}
+          <span class="form__error" role="alert">{{ form.phone.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <div class="form__group">
+        <label class="form__label" for="id_email">Email</label>
+        {{ form.email }}
+        {% if form.email.errors %}
+          <span class="form__error" role="alert">{{ form.email.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <div class="form__group">
+        <label class="form__label" for="id_check_in">{% trans "Check-in date *" %}</label>
+        {{ form.check_in }}
+        {% if form.check_in.errors %}
+          <span class="form__error" role="alert">{{ form.check_in.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <div class="form__group">
+        <label class="form__label" for="id_check_out">{% trans "Check-out date *" %}</label>
+        {{ form.check_out }}
+        {% if form.check_out.errors %}
+          <span class="form__error" role="alert">{{ form.check_out.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <div class="form__group form__group--half">
+        <label class="form__label" for="id_adults">{% trans "Adults" %}</label>
+        {{ form.adults }}
+        {% if form.adults.errors %}
+          <span class="form__error" role="alert">{{ form.adults.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <div class="form__group form__group--half">
+        <label class="form__label" for="id_children">{% trans "Children" %}</label>
+        {{ form.children }}
+        {% if form.children.errors %}
+          <span class="form__error" role="alert">{{ form.children.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <div class="form__group form__group--full">
+        <label class="form__label" for="id_room_type">{% trans "Room type" %}</label>
+        {{ form.room_type }}
+        {% if form.room_type.errors %}
+          <span class="form__error" role="alert">{{ form.room_type.errors.0 }}</span>
+        {% endif %}
+      </div>
+
+      <div class="form__group form__group--full">
+        <label class="form__label" for="id_message">{% trans "Special requests" %}</label>
+        {{ form.message }}
+        {% if form.message.errors %}
+          <span class="form__error" role="alert">{{ form.message.errors.0 }}</span>
+        {% endif %}
+      </div>
+    </div>
+
+    {% if form.non_field_errors %}
+      <div class="form__errors" role="alert">
+        {% for error in form.non_field_errors %}
+          <p class="form__error">{{ error }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+
+    <button type="submit" id="{{ bid }}-submit" class="btn btn--gold btn--full booking-form__submit">
+      <span class="btn__text">{% trans "Submit request" %}</span>
+      <span class="btn__loader" aria-hidden="true"></span>
+    </button>
+  </form>
+</div>
+{% endwith %}

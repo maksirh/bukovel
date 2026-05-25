@@ -1,0 +1,75 @@
+{% load static i18n %}
+<footer class="footer">
+  <div class="footer__inner container">
+
+    <div class="footer__brand">
+      {% if site_settings.logo_white %}
+        <img src="{{ site_settings.logo_white.url }}" alt="{{ site_settings.site_name }}" class="footer__logo" width="140" height="42">
+      {% else %}
+        <span class="footer__logo-text">{{ site_settings.site_name }}</span>
+      {% endif %}
+      {% if site_settings.tagline %}
+        <p class="footer__tagline">{{ site_settings.tagline }}</p>
+      {% endif %}
+      <div class="footer__socials">
+        {% if site_settings.instagram_url %}
+          <a href="{{ site_settings.instagram_url }}" class="footer__social-link" target="_blank" rel="noopener" aria-label="Instagram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+          </a>
+        {% endif %}
+        {% if site_settings.facebook_url %}
+          <a href="{{ site_settings.facebook_url }}" class="footer__social-link" target="_blank" rel="noopener" aria-label="Facebook">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+          </a>
+        {% endif %}
+        {% if site_settings.telegram_url %}
+          <a href="{{ site_settings.telegram_url }}" class="footer__social-link" target="_blank" rel="noopener" aria-label="Telegram">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+          </a>
+        {% endif %}
+      </div>
+    </div>
+
+    <nav class="footer__nav" aria-label="{% trans 'Footer navigation' %}">
+      <h3 class="footer__nav-title">{% trans "Hotel" %}</h3>
+      <ul class="footer__nav-list">
+        <li><a href="{% url 'room_list' %}" class="footer__nav-link">{% trans "Rooms" %}</a></li>
+        <li><a href="{% url 'spa' %}" class="footer__nav-link">SPA</a></li>
+        <li><a href="{% url 'restaurant' %}" class="footer__nav-link">{% trans "Restaurant" %}</a></li>
+        <li><a href="{% url 'service_list' %}" class="footer__nav-link">{% trans "Services" %}</a></li>
+      </ul>
+    </nav>
+
+    <nav class="footer__nav" aria-label="{% trans 'Additional navigation' %}">
+      <h3 class="footer__nav-title">{% trans "Information" %}</h3>
+      <ul class="footer__nav-list">
+        <li><a href="{% url 'offer_list' %}" class="footer__nav-link">{% trans "Offers" %}</a></li>
+        <li><a href="{% url 'about' %}" class="footer__nav-link">{% trans "About us" %}</a></li>
+        <li><a href="{% url 'contacts' %}" class="footer__nav-link">{% trans "Contacts" %}</a></li>
+        <li><a href="{% url 'booking' %}" class="footer__nav-link">{% trans "Booking" %}</a></li>
+      </ul>
+    </nav>
+
+    <div class="footer__contacts">
+      <h3 class="footer__nav-title">{% trans "Contacts" %}</h3>
+      {% if site_settings.phone %}
+        <a href="tel:{{ site_settings.phone }}" class="footer__contact-item">{{ site_settings.phone }}</a>
+      {% endif %}
+      {% if site_settings.email %}
+        <a href="mailto:{{ site_settings.email }}" class="footer__contact-item">{{ site_settings.email }}</a>
+      {% endif %}
+      {% if site_settings.address %}
+        <p class="footer__contact-item footer__contact-item--address">{{ site_settings.address }}</p>
+      {% endif %}
+      <div class="footer__checkin">
+        <span>{% trans "Check-in:" %} {{ site_settings.check_in_time }}</span>
+        <span>{% trans "Check-out:" %} {{ site_settings.check_out_time }}</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="footer__bottom container">
+    <p class="footer__copy">&copy; {% now "Y" %} {{ site_settings.site_name }}. {% trans "All rights reserved." %}</p>
+  </div>
+</footer>

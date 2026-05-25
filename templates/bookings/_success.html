@@ -1,0 +1,20 @@
+{% load static i18n %}
+<div id="{{ result_id }}" class="booking-result booking-result--success reveal is-visible">
+  <div class="booking-result__icon">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M9 12l2 2 4-4"/>
+    </svg>
+  </div>
+  <h3 class="booking-result__title">
+    {% blocktrans with name=booking.full_name %}Thank you, {{ name }}!{% endblocktrans %}
+  </h3>
+  <p class="booking-result__text">{% trans "Your request has been received. Our manager will contact you shortly to confirm the booking." %}</p>
+  <div class="booking-result__details">
+    <span>{{ booking.check_in|date:"d.m.Y" }} — {{ booking.check_out|date:"d.m.Y" }}</span>
+    <span>{% blocktrans count count=booking.nights %}{{ count }} night{% plural %}{{ count }} nights{% endblocktrans %}</span>
+    {% if booking.room_type %}
+      <span>{{ booking.room_type.title }}</span>
+    {% endif %}
+  </div>
+</div>

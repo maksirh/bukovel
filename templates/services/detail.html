@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}{{ service.title }}{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/pages/services.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="page-hero page-hero--sm">
+  <div class="container">
+    {% if service.icon %}
+      <span class="page-hero__icon" aria-hidden="true">{{ service.icon }}</span>
+    {% endif %}
+    <h1 class="page-hero__title reveal reveal--up">{{ service.title }}</h1>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <div class="service-detail-layout">
+      {% if service.image %}
+        <div class="service-detail__media reveal reveal--scale">
+          <img src="{{ service.image.url }}" alt="{{ service.title }}" class="service-detail__img" loading="lazy" width="680" height="480">
+        </div>
+      {% else %}
+        <div class="service-detail__media service-detail__img-placeholder reveal reveal--scale" aria-hidden="true">
+          {% if service.icon %}
+            <span class="service-detail__placeholder-icon">{{ service.icon }}</span>
+          {% else %}
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" class="service-detail__placeholder-svg" fill="none" stroke="currentColor" stroke-linejoin="round">
+              <path d="M24 6 L2 42 H46 Z" stroke-width="2"/>
+              <path d="M16 42 L24 24 L32 42" stroke-width="1.5"/>
+            </svg>
+          {% endif %}
+        </div>
+      {% endif %}
+      <div class="service-detail__text">
+        <div class="service-detail__desc reveal reveal--up">
+          {% if service.description %}
+            {{ service.description|linebreaks }}
+          {% else %}
+            {{ service.short_description|linebreaks }}
+          {% endif %}
+        </div>
+        <button
+          type="button"
+          class="btn btn--gold reveal reveal--up"
+          data-reveal-delay="100"
+          hx-get="{% url 'booking_modal' %}"
+          hx-target="#modal-root"
+          hx-swap="innerHTML"
+        >{% trans "Book" %}</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if other_services %}
+<section class="section section--beige">
+  <div class="container">
+    <h2 class="section-title reveal reveal--up">{% trans "Other services" %}</h2>
+    <div class="services-grid">
+      {% for other in other_services %}
+        <a href="{{ other.get_absolute_url }}" class="service-card reveal reveal--up" data-reveal-delay="{{ forloop.counter0 }}00">
+          {% if other.icon %}<span class="service-card__icon" aria-hidden="true">{{ other.icon }}</span>{% endif %}
+          <h3 class="service-card__title">{{ other.title }}</h3>
+          <p class="service-card__desc">{{ other.short_description|truncatewords:12 }}</p>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

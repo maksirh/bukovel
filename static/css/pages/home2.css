@@ -1,0 +1,220 @@
+/* ===== STATS ===== */
+.home-stats__list {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--sp-6) var(--sp-8);
+  padding-block: var(--sp-4);
+}
+
+@media (min-width: 768px) {
+  .home-stats__list {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.home-stats__item {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-1);
+  padding-left: var(--sp-4);
+  border-left: 2px solid var(--clr-gold);
+}
+
+.home-stats__value {
+  font-family: var(--font-serif);
+  font-size: var(--fs-2xl);
+  font-weight: var(--fw-light);
+  line-height: 1;
+  color: var(--clr-ink);
+}
+
+.home-stats__label {
+  font-size: var(--fs-xs);
+  color: var(--clr-text-muted);
+  letter-spacing: 0.04em;
+  line-height: var(--lh-snug);
+}
+
+/* ===== SPA ===== */
+.home-spa__layout {
+  display: grid;
+  gap: var(--sp-12);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .home-spa__layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.home-spa__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.home-spa__schedule {
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.6);
+  line-height: var(--lh-snug);
+}
+
+.home-spa__features {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-2);
+}
+
+.home-spa__feature {
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+}
+
+.home-spa__feature::before {
+  content: '';
+  display: block;
+  width: 20px;
+  height: 1px;
+  background-color: var(--clr-gold);
+  flex-shrink: 0;
+}
+
+.home-spa__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.home-spa__img-placeholder {
+  aspect-ratio: 4/3;
+  background-color: rgba(255,255,255,.06);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255,255,255,.3);
+  font-family: var(--font-serif);
+  font-size: var(--fs-2xl);
+}
+
+/* ===== RESTAURANT ===== */
+.home-restaurant__layout {
+  display: grid;
+  gap: var(--sp-12);
+  align-items: center;
+}
+
+@media (min-width: 768px) {
+  .home-restaurant__layout {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.home-restaurant__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--radius-sm);
+}
+
+.home-restaurant__img-placeholder {
+  aspect-ratio: 4/3;
+  background-color: rgba(255, 255, 255, 0.05);
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(255, 255, 255, 0.25);
+  font-family: var(--font-serif);
+  font-size: var(--fs-2xl);
+}
+
+.home-restaurant__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--sp-5);
+}
+
+.home-restaurant__hours {
+  display: flex;
+  align-items: center;
+  gap: var(--sp-3);
+  flex-wrap: wrap;
+  font-size: var(--fs-sm);
+}
+
+.home-restaurant__hours-sep {
+  color: var(--clr-gold);
+}
+
+.home-restaurant__desc {
+  color: var(--clr-text-muted);
+  line-height: var(--lh-loose);
+}
+
+/* ===== BOOKING CTA ===== */
+.home-booking-cta__inner {
+  max-width: 680px;
+  margin-inline: auto;
+  text-align: center;
+  background: rgba(20, 28, 25, 0.6);
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(200, 162, 107, 0.25);
+  border-radius: var(--radius-md);
+  padding: var(--sp-12) var(--sp-10);
+}
+
+@media (max-width: 639px) {
+  .home-booking-cta__inner {
+    padding: var(--sp-8) var(--sp-5);
+  }
+}
+
+.home-booking-cta__title {
+  font-family: var(--font-serif);
+  font-size: clamp(var(--fs-xl), 3vw, var(--fs-2xl));
+  font-weight: var(--fw-light);
+  color: var(--clr-white);
+  margin-bottom: var(--sp-3);
+}
+
+.home-booking-cta__subtitle {
+  font-size: var(--fs-sm);
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: var(--sp-8);
+}
+
+.home-booking-cta .booking-form__grid .form__label {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.home-booking-cta .form__input,
+.home-booking-cta .form__select,
+.home-booking-cta .form__textarea {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+  color: var(--clr-white);
+}
+
+.home-booking-cta .form__input:focus,
+.home-booking-cta .form__select:focus,
+.home-booking-cta .form__textarea:focus {
+  border-color: var(--clr-gold);
+  box-shadow: 0 0 0 3px rgba(var(--clr-gold-rgb), 0.25);
+}
+
+.home-booking-cta .form__input::placeholder,
+.home-booking-cta .form__textarea::placeholder {
+  color: rgba(255,255,255,.35);
+}
+
+/* White chevron for select on dark bg */
+.home-booking-cta .form__select {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23FFFFFF' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C%2Fsvg%3E");
+}
