@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static i18n %}
+{% load static i18n site_tags %}
 
 {% block title %}{{ service.title }}{% endblock %}
 
@@ -61,7 +61,8 @@
 <section class="section section--beige">
   <div class="container">
     <h2 class="section-title reveal reveal--up">{% trans "Other services" %}</h2>
-    <div class="services-grid">
+    {% with n=other_services|length %}
+    <div class="services-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:5 }}">
       {% for other in other_services %}
         <a href="{{ other.get_absolute_url }}" class="service-card reveal reveal--up" data-reveal-delay="{{ forloop.counter0 }}00">
           {% if other.icon %}<span class="service-card__icon" aria-hidden="true">{{ other.icon }}</span>{% endif %}
@@ -70,6 +71,7 @@
         </a>
       {% endfor %}
     </div>
+    {% endwith %}
   </div>
 </section>
 {% endif %}

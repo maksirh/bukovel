@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static i18n %}
+{% load static i18n site_tags %}
 
 {% block title %}{% trans "Special offers" %}{% endblock %}
 
@@ -12,13 +12,15 @@
 
 <section class="section">
   <div class="container">
-    <div class="offers-grid offers-grid--page">
+    {% with n=offers|length %}
+    <div class="offers-grid offers-grid--page grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }}">
       {% for offer in offers %}
         {% include 'partials/offer_card.html' %}
       {% empty %}
         <p class="empty-state">{% trans "Offers coming soon" %}</p>
       {% endfor %}
     </div>
+    {% endwith %}
   </div>
 </section>
 {% endblock %}

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static i18n %}
+{% load static i18n site_tags %}
 
 {% block title %}{% trans "Rooms and apartments" %}{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'css/pages/rooms.css' %}">{% endblock %}
@@ -15,13 +15,15 @@
 
 <section class="section">
   <div class="container">
-    <div class="rooms-grid rooms-grid--page" id="rooms-grid">
+    {% with n=rooms|length %}
+    <div class="rooms-grid rooms-grid--page grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }}" id="rooms-grid">
       {% for room in rooms %}
         {% include 'partials/room_card.html' %}
       {% empty %}
         <p class="empty-state">{% trans "Rooms coming soon" %}</p>
       {% endfor %}
     </div>
+    {% endwith %}
   </div>
 </section>
 {% endblock %}

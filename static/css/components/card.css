@@ -183,18 +183,30 @@
   display: flex;
   flex-direction: column;
   gap: var(--sp-3);
+  min-height: 100%;
+  text-decoration: none;
+  color: inherit;
   transition: box-shadow var(--duration-base) var(--ease-out),
-              border-color var(--duration-base);
+              border-color var(--duration-base),
+              transform var(--duration-base) var(--ease-out);
   cursor: pointer;
 }
 
 .service-card:hover {
   box-shadow: var(--shadow-md);
   border-color: var(--clr-gold);
+  transform: translateY(-3px);
 }
 
 .service-card__icon {
-  font-size: 1.75rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3rem;
+  height: 3rem;
+  border-radius: var(--radius-sm);
+  background-color: color-mix(in srgb, var(--clr-gold) 14%, transparent);
+  font-size: 1.5rem;
   line-height: 1;
 }
 

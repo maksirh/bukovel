@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static i18n %}
+{% load static i18n site_tags %}
 
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'css/pages/home.css' %}">
@@ -204,7 +204,8 @@
       <span class="section-eyebrow">{% trans "Amenities" %}</span>
       <h2 class="section-title">{% trans "Additional services" %}</h2>
     </div>
-    <div class="services-grid">
+    {% with n=services|length %}
+    <div class="services-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:5 }}">
       {% for service in services %}
         <a href="{{ service.get_absolute_url }}" class="service-card reveal reveal--up" data-reveal-delay="{{ forloop.counter0 }}00">
           {% if service.icon %}
@@ -215,6 +216,7 @@
         </a>
       {% endfor %}
     </div>
+    {% endwith %}
   </div>
 </section>
 {% endif %}
@@ -227,11 +229,13 @@
       <span class="section-eyebrow">{% trans "Profitable" %}</span>
       <h2 class="section-title">{% trans "Special offers" %}</h2>
     </div>
-    <div class="offers-grid">
+    {% with n=offers|length %}
+    <div class="offers-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }}">
       {% for offer in offers %}
         {% include 'partials/offer_card.html' %}
       {% endfor %}
     </div>
+    {% endwith %}
     <div class="section-cta reveal reveal--up">
       <a href="{% url 'offer_list' %}" class="btn btn--outline">{% trans "All offers" %}</a>
     </div>

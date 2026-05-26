@@ -1,92 +1,92 @@
-/* ---- ROOMS GRID ---- */
-.rooms-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--sp-6);
-}
-
-@media (min-width: 640px) {
-  .rooms-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .rooms-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* ---- OFFERS GRID ---- */
-.offers-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--sp-6);
-}
-
-@media (min-width: 640px) {
-  .offers-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .offers-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-/* ---- SERVICES GRID ---- */
-.services-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: var(--sp-4);
-}
-
-@media (min-width: 480px) {
-  .services-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (min-width: 768px) {
-  .services-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
-@media (min-width: 1024px) {
-  .services-grid {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.services-grid--page {
-  grid-template-columns: 1fr;
-  gap: var(--sp-8);
-}
-
-@media (min-width: 768px) {
-  .services-grid--page {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-/* ---- MENU GRID ---- */
+/* ---- CARD GRIDS (ideal_cols modifiers) ---- */
+.rooms-grid,
+.offers-grid,
+.services-grid,
 .menu-grid {
   display: grid;
   grid-template-columns: 1fr;
   gap: var(--sp-6);
 }
 
+.services-grid {
+  gap: var(--sp-4);
+}
+
+.services-grid--page {
+  gap: var(--sp-8);
+  grid-template-columns: 1fr;
+}
+
 @media (min-width: 640px) {
-  .menu-grid {
+  .rooms-grid.grid-tablet-cols-1,
+  .offers-grid.grid-tablet-cols-1,
+  .services-grid.grid-tablet-cols-1,
+  .menu-grid.grid-tablet-cols-1 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .rooms-grid.grid-tablet-cols-2,
+  .offers-grid.grid-tablet-cols-2,
+  .services-grid.grid-tablet-cols-2,
+  .menu-grid.grid-tablet-cols-2 {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rooms-grid.grid-tablet-cols-3,
+  .offers-grid.grid-tablet-cols-3,
+  .services-grid.grid-tablet-cols-3,
+  .menu-grid.grid-tablet-cols-3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .rooms-grid.grid-tablet-cols-4,
+  .offers-grid.grid-tablet-cols-4,
+  .services-grid.grid-tablet-cols-4,
+  .menu-grid.grid-tablet-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .rooms-grid.grid-tablet-cols-5,
+  .offers-grid.grid-tablet-cols-5,
+  .services-grid.grid-tablet-cols-5,
+  .menu-grid.grid-tablet-cols-5 {
+    grid-template-columns: repeat(5, 1fr);
   }
 }
 
 @media (min-width: 1024px) {
-  .menu-grid {
+  .rooms-grid.grid-desktop-cols-1,
+  .offers-grid.grid-desktop-cols-1,
+  .services-grid.grid-desktop-cols-1,
+  .menu-grid.grid-desktop-cols-1 {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .rooms-grid.grid-desktop-cols-2,
+  .offers-grid.grid-desktop-cols-2,
+  .services-grid.grid-desktop-cols-2,
+  .menu-grid.grid-desktop-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .rooms-grid.grid-desktop-cols-3,
+  .offers-grid.grid-desktop-cols-3,
+  .services-grid.grid-desktop-cols-3,
+  .menu-grid.grid-desktop-cols-3 {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .rooms-grid.grid-desktop-cols-4,
+  .offers-grid.grid-desktop-cols-4,
+  .services-grid.grid-desktop-cols-4,
+  .menu-grid.grid-desktop-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .rooms-grid.grid-desktop-cols-5,
+  .offers-grid.grid-desktop-cols-5,
+  .services-grid.grid-desktop-cols-5,
+  .menu-grid.grid-desktop-cols-5 {
+    grid-template-columns: repeat(5, 1fr);
   }
 }

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static i18n %}
+{% load static i18n site_tags %}
 
 {% block title %}{% trans "Restaurant" %}{% endblock %}
 {% block extra_css %}<link rel="stylesheet" href="{% static 'css/pages/restaurant.css' %}">{% endblock %}
@@ -143,7 +143,8 @@
             <p class="menu-section__desc">{{ section.description }}</p>
           {% endif %}
         </div>
-        <div class="menu-grid">
+        {% with n=section.active_items|length %}
+        <div class="menu-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }}">
           {% for item in section.active_items %}
             <div class="menu-card">
               <div class="menu-card__img-wrap{% if not item.image %} menu-card__placeholder{% endif %}"{% if not item.image %} aria-hidden="true"{% endif %}>
@@ -170,6 +171,7 @@
             </div>
           {% endfor %}
         </div>
+        {% endwith %}
       </div>
     {% endfor %}
   </div>

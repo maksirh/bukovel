@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static i18n %}
+{% load static i18n site_tags %}
 
 {% block title %}{{ offer.title }}{% endblock %}
 
@@ -54,11 +54,13 @@
 <section class="section section--beige">
   <div class="container">
     <h2 class="section-title reveal reveal--up">{% trans "Other offers" %}</h2>
-    <div class="offers-grid">
+    {% with n=other_offers|length %}
+    <div class="offers-grid grid-tablet-cols-{{ n|ideal_cols:2 }} grid-desktop-cols-{{ n|ideal_cols:3 }}">
       {% for other in other_offers %}
         {% include 'partials/offer_card.html' with offer=other %}
       {% endfor %}
     </div>
+    {% endwith %}
   </div>
 </section>
 {% endif %}
