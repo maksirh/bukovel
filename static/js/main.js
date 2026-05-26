@@ -40,6 +40,10 @@ document.addEventListener('htmx:beforeSwap', (e) => {
 
   syncPageShell(newDoc);
 
+  initLangSwitcher();
+  initHeader();
+  initMobileNav();
+
   // Update page title
   document.title = newDoc.title;
 
@@ -79,15 +83,6 @@ document.addEventListener('htmx:beforeSwap', (e) => {
 // it would cancel running RAF loops, re-create observers, and reset state.
 document.addEventListener('htmx:afterSwap', (e) => {
   if (e.detail.target?.id !== 'main-content') return;
-
-  // Keep lang-switcher next URL in sync after HTMX navigation
-  document.querySelectorAll('.lang-switcher__form').forEach((form) => {
-    const nextInput = form.querySelector('input[name="next"]');
-    const activeBtn = form.querySelector('.lang-switcher__btn.is-active');
-    if (nextInput && activeBtn?.dataset.langNext) {
-      nextInput.value = activeBtn.dataset.langNext;
-    }
-  });
 
   initLangSwitcher();
   initHeader();

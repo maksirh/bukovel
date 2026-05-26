@@ -22,6 +22,9 @@ fi
 echo "==> bootstrap_once"
 python -u manage.py bootstrap_once "${BOOTSTRAP_ARGS[@]}"
 
+echo "==> compilemessages (fallback)"
+python -u manage.py compilemessages --ignore=.venv --ignore=venv 2>/dev/null || true
+
 SYNC_ARGS=(--force)
 if [[ "${CLOUDINARY_SYNC_SMART:-}" == "1" ]]; then
   echo "  CLOUDINARY_SYNC_SMART=1 — лише відсутні фото"

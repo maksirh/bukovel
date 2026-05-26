@@ -7,16 +7,14 @@
   display: flex;
   align-items: center;
   flex-shrink: 0;
-}
-
-.lang-switcher form {
-  display: flex;
-  align-items: center;
   gap: 0;
 }
 
-/* ---- Base button ---- */
+/* ---- Base button / link ---- */
 .lang-switcher__btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   font-family: var(--font-sans);
   font-size: var(--fs-xs);
   font-weight: var(--fw-semi);
@@ -27,6 +25,7 @@
   border: none;
   padding: var(--sp-1) var(--sp-2);
   cursor: pointer;
+  text-decoration: none;
   transition: color var(--duration-fast) var(--ease-out);
   position: relative;
 }
