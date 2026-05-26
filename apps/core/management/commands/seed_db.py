@@ -14,6 +14,7 @@ from django.conf import settings
 from django.core.files import File
 from django.core.management.base import BaseCommand
 
+from apps.core.cloudinary_sync import cloudinary_configured, needs_cloudinary_upload
 from apps.core.models import HeroSlide, SiteSettings, StatItem
 from apps.offers.models import SpecialOffer
 from apps.restaurant.models import MenuItem, MenuSection, RestaurantInfo, RestaurantPhoto
@@ -77,6 +78,9 @@ class Command(BaseCommand):
 
         self._images_ok = 0
         self._images_fail = 0
+        self._images_skip = 0
+        self._smart_sync = False
+        self._force_images = False
 
         self._seed_site_settings()
         self._seed_hero_slides()
@@ -90,7 +94,46 @@ class Command(BaseCommand):
         self.stdout.write(
             self.style.SUCCESS(
                 f"\n✅  seed_db — завершено "
-                f"(фото: {self._images_ok} ok, {self._images_fail} помилок)\n"
+                f"(фото: {self._images_ok} ok, {self._images_skip} пропущено, {self._images_fail} помилок)\n"
+            )
+        )
+
+    def sync_all_images(self, *, smart: bool = True, force: bool = False) -> None:
+        """Лише завантаження фото з hotel_images/ у наявні записи БД."""
+        from django.core.files.storage import default_storage
+
+        self._images_ok = 0
+        self._images_fail = 0
+        self._images_skip = 0
+        self._smart_sync = smart
+        self._force_images = force
+
+        self.stdout.write(self.style.MIGRATE_HEADING("\n🖼  sync_all_images — старт\n"))
+        self.stdout.write(f"   Storage: {default_storage.__class__.__name__}")
+        if cloudinary_configured():
+            self.stdout.write(f"   Cloudinary: {settings.CLOUDINARY_STORAGE['CLOUD_NAME']}")
+        elif not settings.DEBUG:
+            self.stdout.write(self.style.ERROR(
+                "   ✖  CLOUDINARY_* env vars не задані — upload неможливий"
+            ))
+            return
+
+        hotel_count = sum(1 for _ in IMAGES_SRC_ROOT.rglob('*') if _.is_file())
+        self.stdout.write(f"   Файлів у hotel_images/: {hotel_count}")
+
+        self._sync_site_settings_images()
+        self._sync_hero_images()
+        self._sync_rooms_images()
+        self._sync_spa_images()
+        self._sync_restaurant_images()
+        self._sync_services_images()
+        self._sync_offers_images()
+
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"\n✅  sync_all_images — завершено "
+                f"(завантажено: {self._images_ok}, пропущено: {self._images_skip}, "
+                f"помилок: {self._images_fail})\n"
             )
         )
 
@@ -115,7 +158,19 @@ class Command(BaseCommand):
 
         unique_name = src_rel.replace("/", "_")
         field = getattr(instance, field_name)
+
+        if (
+            self._smart_sync
+            and not self._force_images
+            and field.name
+            and not needs_cloudinary_upload(field)
+        ):
+            self._images_skip += 1
+            return
+
         try:
+            if field.name:
+                field.delete(save=False)
             with src.open("rb") as fh:
                 field.save(unique_name, File(fh), save=False)
             self._images_ok += 1
@@ -126,6 +181,102 @@ class Command(BaseCommand):
                     f"   ⚠  Не вдалось завантажити {src_rel}: {exc}"
                 )
             )
+
+    def _sync_site_settings_images(self) -> None:
+        self.stdout.write("🏨  SiteSettings...")
+        obj = SiteSettings.load()
+        self._apply_image(obj, "about_image", SITE_SETTINGS_DATA["about_image_src"])
+        obj.save()
+
+    def _sync_hero_images(self) -> None:
+        self.stdout.write("🖼  HeroSlide...")
+        for data in HERO_SLIDES_DATA:
+            obj = HeroSlide.objects.filter(order=data["order"]).first()
+            if not obj:
+                continue
+            self._apply_image(obj, "image", data["image_src"])
+            obj.save()
+
+    def _sync_rooms_images(self) -> None:
+        self.stdout.write("🛏  RoomType + RoomImage...")
+        for data in ROOMS_DATA:
+            room = RoomType.objects.filter(slug=data["slug"]).first()
+            if not room:
+                continue
+            self._apply_image(room, "cover_image", data["cover_image_src"])
+            room.save()
+            for idx, src in enumerate(data["gallery_images"]):
+                if not src:
+                    continue
+                img = RoomImage.objects.filter(room_type=room, order=idx).first()
+                if not img:
+                    continue
+                self._apply_image(img, "image", src)
+                img.save()
+
+    def _sync_spa_images(self) -> None:
+        self.stdout.write("💆  Spa...")
+        schedule = SpaSchedule.load()
+        self._apply_image(schedule, "cover_image", SPA_SCHEDULE_DATA["cover_image_src"])
+        schedule.save()
+
+        for data in SPA_ZONES_DATA:
+            obj = SpaZone.objects.filter(slug=data["slug"]).first()
+            if not obj:
+                continue
+            self._apply_image(obj, "image", data["image_src"])
+            obj.save()
+
+        for data in SPA_GALLERY_DATA:
+            obj = SpaGallery.objects.filter(order=data["order"]).first()
+            if not obj:
+                continue
+            self._apply_image(obj, "image", data["image_src"])
+            obj.save()
+
+    def _sync_restaurant_images(self) -> None:
+        self.stdout.write("🍽  Restaurant...")
+        info = RestaurantInfo.load()
+        self._apply_image(info, "cover_image", RESTAURANT_INFO_DATA["cover_image_src"])
+        info.save()
+
+        for block in RESTAURANT_MENU_DATA:
+            section = MenuSection.objects.filter(order=block["section"]["order"]).first()
+            if not section:
+                continue
+            for item_data in block["items"]:
+                item = MenuItem.objects.filter(
+                    section=section, order=item_data["order"]
+                ).first()
+                if not item:
+                    continue
+                self._apply_image(item, "image", item_data.get("image_src", ""))
+                item.save()
+
+        for data in RESTAURANT_PHOTOS_DATA:
+            obj = RestaurantPhoto.objects.filter(order=data["order"]).first()
+            if not obj:
+                continue
+            self._apply_image(obj, "image", data["image_src"])
+            obj.save()
+
+    def _sync_services_images(self) -> None:
+        self.stdout.write("⚙️  Service...")
+        for data in SERVICES_DATA:
+            obj = Service.objects.filter(slug=data["slug"]).first()
+            if not obj:
+                continue
+            self._apply_image(obj, "image", data.get("image_src", ""))
+            obj.save()
+
+    def _sync_offers_images(self) -> None:
+        self.stdout.write("🏷  SpecialOffer...")
+        for data in OFFERS_DATA:
+            obj = SpecialOffer.objects.filter(slug=data["slug"]).first()
+            if not obj:
+                continue
+            self._apply_image(obj, "image", data["image_src"])
+            obj.save()
 
     def _ok(self, label: str, created: bool) -> None:
         action = "створено" if created else "оновлено"

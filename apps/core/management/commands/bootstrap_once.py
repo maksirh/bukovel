@@ -3,33 +3,23 @@ from django.core.files.storage import default_storage
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 
+from apps.core.cloudinary_sync import (
+    cloudinary_configured,
+    needs_cloudinary_upload,
+    uses_cloudinary_storage,
+)
 from apps.core.models import HeroSlide, SiteBootstrap
 from apps.rooms.models import RoomType
 
 
-def _uses_cloudinary_storage() -> bool:
-    return 'cloudinary' in default_storage.__class__.__module__.lower()
-
-
-def _cloudinary_configured() -> bool:
-    return bool(settings.CLOUDINARY_STORAGE.get('CLOUD_NAME'))
-
-
-def _image_on_cloudinary(image_field) -> bool:
-    if not image_field:
-        return False
-    url = image_field.url
-    return 'res.cloudinary.com' in url or 'cloudinary' in url
-
-
 def _media_needs_reseed() -> bool:
-    """Контент є, але фото не на Cloudinary (типовий кейс після багового seed на Render)."""
+    """Контент є, але фото не на Cloudinary або URL битий (404)."""
     slide = HeroSlide.objects.filter(image__gt='').first()
-    if slide and not _image_on_cloudinary(slide.image):
+    if slide and needs_cloudinary_upload(slide.image):
         return True
 
     room = RoomType.objects.filter(cover_image__gt='').first()
-    if room and not _image_on_cloudinary(room.cover_image):
+    if room and needs_cloudinary_upload(room.cover_image):
         return True
 
     if HeroSlide.objects.exists() and not HeroSlide.objects.exclude(image='').exists():
@@ -59,8 +49,8 @@ class Command(BaseCommand):
 
         if (
             not force
-            and _uses_cloudinary_storage()
-            and _cloudinary_configured()
+            and uses_cloudinary_storage(default_storage)
+            and cloudinary_configured()
             and has_content
             and _media_needs_reseed()
         ):
@@ -83,9 +73,9 @@ class Command(BaseCommand):
 
         self.stdout.write(self.style.MIGRATE_HEADING('\n🚀  bootstrap_once — старт\n'))
         self.stdout.write(f'   Storage: {default_storage.__class__.__name__}')
-        if _cloudinary_configured():
+        if cloudinary_configured():
             self.stdout.write(f'   Cloudinary: {settings.CLOUDINARY_STORAGE["CLOUD_NAME"]}')
-        elif _uses_cloudinary_storage():
+        elif uses_cloudinary_storage(default_storage):
             self.stdout.write(
                 self.style.WARNING('   ⚠  Cloudinary storage увімкнено, але env vars не задані')
             )
