@@ -10,6 +10,7 @@
 .header__phone:focus-visible,
 .footer__nav-link:focus-visible,
 .footer__contact-item:focus-visible,
+.footer__credit-link:focus-visible,
 .mobile-nav__link:focus-visible {
   outline: 2px solid var(--clr-gold);
   outline-offset: 3px;

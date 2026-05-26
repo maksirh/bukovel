@@ -133,11 +133,35 @@ a.footer__contact-item:hover {
 
 /* ---- BOTTOM BAR ---- */
 .footer__bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--sp-2);
   padding-block: var(--sp-6);
   padding-bottom: max(var(--sp-6), var(--safe-bottom));
+  text-align: center;
 }
 
-.footer__copy {
+@media (min-width: 640px) {
+  .footer__bottom {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    text-align: left;
+  }
+}
+
+.footer__copy,
+.footer__credit {
   font-size: var(--fs-xs);
   color: rgba(255, 255, 255, 0.5);
+}
+
+.footer__credit-link {
+  color: rgba(255, 255, 255, 0.65);
+  transition: color var(--duration-fast);
+}
+
+.footer__credit-link:hover {
+  color: var(--clr-gold);
 }
