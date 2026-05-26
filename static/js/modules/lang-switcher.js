@@ -1,11 +1,21 @@
 /**
- * Перемикач мов: завжди повне перезавантаження сторінки (не HTMX boost).
+ * Перемикач мов: повне перезавантаження + правильний next URL (/en/...).
  */
 export function initLangSwitcher() {
-  document.querySelectorAll('.lang-switcher form').forEach((form) => {
+  document.querySelectorAll('.lang-switcher__form').forEach((form) => {
     if (form.dataset.langInit === '1') return;
     form.dataset.langInit = '1';
     form.setAttribute('hx-boost', 'false');
+
+    const nextInput = form.querySelector('input[name="next"]');
+
+    form.querySelectorAll('[data-lang-next]').forEach((button) => {
+      button.addEventListener('click', () => {
+        if (nextInput && button.dataset.langNext) {
+          nextInput.value = button.dataset.langNext;
+        }
+      });
+    });
 
     form.addEventListener('submit', (event) => {
       event.stopImmediatePropagation();

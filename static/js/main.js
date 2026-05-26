@@ -80,9 +80,13 @@ document.addEventListener('htmx:beforeSwap', (e) => {
 document.addEventListener('htmx:afterSwap', (e) => {
   if (e.detail.target?.id !== 'main-content') return;
 
-  // Keep lang-switcher "next" inputs in sync with the current URL
-  document.querySelectorAll('input[name="next"]').forEach(input => {
-    input.value = window.location.pathname + window.location.search;
+  // Keep lang-switcher next URL in sync after HTMX navigation
+  document.querySelectorAll('.lang-switcher__form').forEach((form) => {
+    const nextInput = form.querySelector('input[name="next"]');
+    const activeBtn = form.querySelector('.lang-switcher__btn.is-active');
+    if (nextInput && activeBtn?.dataset.langNext) {
+      nextInput.value = activeBtn.dataset.langNext;
+    }
   });
 
   initLangSwitcher();

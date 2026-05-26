@@ -1,5 +1,4 @@
 {% load static i18n %}
-{% get_current_language as CURRENT_LANG %}
 <nav class="mobile-nav" id="mobile-nav" aria-label="{% trans 'Mobile navigation' %}" aria-hidden="true">
   <div class="mobile-nav__overlay" id="mobile-nav-overlay"></div>
   <div class="mobile-nav__panel">
@@ -24,18 +23,7 @@
         <a href="tel:{{ site_settings.phone }}" class="mobile-nav__phone">{{ site_settings.phone }}</a>
       {% endif %}
 
-      <div class="lang-switcher lang-switcher--mobile">
-        <form action="{% url 'set_language' %}" method="post" hx-boost="false">
-          {% csrf_token %}
-          <input name="next" type="hidden" value="{{ request.get_full_path }}">
-          <button type="submit" name="language" value="uk"
-            class="lang-switcher__btn{% if CURRENT_LANG == 'uk' %} is-active{% endif %}"
-            aria-label="Українська">UK</button>
-          <button type="submit" name="language" value="en"
-            class="lang-switcher__btn{% if CURRENT_LANG == 'en' %} is-active{% endif %}"
-            aria-label="English">EN</button>
-        </form>
-      </div>
+      {% include 'partials/lang_switcher.html' with variant='mobile' %}
 
       <a href="{% url 'booking' %}" class="btn btn--gold btn--full mobile-nav__cta">{% trans "Book" %}</a>
     </div>

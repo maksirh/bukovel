@@ -1,0 +1,16 @@
+{% load i18n %}
+{% get_current_language as CURRENT_LANG %}
+<div class="lang-switcher{% if variant %} lang-switcher--{{ variant }}{% endif %}">
+  <form action="{% url 'set_language' %}" method="post" hx-boost="false" class="lang-switcher__form">
+    {% csrf_token %}
+    <input name="next" type="hidden" value="{{ language_urls.uk }}">
+    <button type="submit" name="language" value="uk"
+      class="lang-switcher__btn{% if CURRENT_LANG == 'uk' %} is-active{% endif %}"
+      data-lang-next="{{ language_urls.uk }}"
+      aria-label="Українська">UK</button>
+    <button type="submit" name="language" value="en"
+      class="lang-switcher__btn{% if CURRENT_LANG == 'en' %} is-active{% endif %}"
+      data-lang-next="{{ language_urls.en }}"
+      aria-label="English">EN</button>
+  </form>
+</div>
