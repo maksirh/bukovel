@@ -63,7 +63,20 @@ class Command(BaseCommand):
         if options["clear"]:
             self._clear_data()
 
+        from django.core.files.storage import default_storage
+
         self.stdout.write(self.style.MIGRATE_HEADING("\n📦  seed_db — старт\n"))
+        self.stdout.write(f"   Storage: {default_storage.__class__.__name__}")
+        cloud_name = settings.CLOUDINARY_STORAGE.get('CLOUD_NAME', '')
+        if cloud_name:
+            self.stdout.write(f"   Cloudinary: {cloud_name}")
+        elif not settings.DEBUG:
+            self.stdout.write(self.style.WARNING(
+                "   ⚠  CLOUDINARY_CLOUD_NAME не заданий — фото не завантажаться на Cloudinary"
+            ))
+
+        self._images_ok = 0
+        self._images_fail = 0
 
         self._seed_site_settings()
         self._seed_hero_slides()
@@ -74,7 +87,12 @@ class Command(BaseCommand):
         self._seed_services()
         self._seed_offers()
 
-        self.stdout.write(self.style.SUCCESS("\n✅  seed_db — завершено\n"))
+        self.stdout.write(
+            self.style.SUCCESS(
+                f"\n✅  seed_db — завершено "
+                f"(фото: {self._images_ok} ok, {self._images_fail} помилок)\n"
+            )
+        )
 
     # ------------------------------------------------------------------
     # Helpers
@@ -100,10 +118,12 @@ class Command(BaseCommand):
         try:
             with src.open("rb") as fh:
                 field.save(unique_name, File(fh), save=False)
+            self._images_ok += 1
         except Exception as exc:
+            self._images_fail += 1
             self.stdout.write(
                 self.style.WARNING(
-                    f"   ⚠  Не вдалось завантажити {src_rel}: {exc.__class__.__name__}"
+                    f"   ⚠  Не вдалось завантажити {src_rel}: {exc}"
                 )
             )
 

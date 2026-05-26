@@ -5,9 +5,11 @@
 #   ./scripts/setup.sh
 #   ./scripts/setup.sh --clear          # очистити контент і заповнити заново
 #
-# Render Shell (prod):
+# Render Shell (prod, лише якщо потрібно вручну):
 #   export DJANGO_SETTINGS_MODULE=config.settings.prod
-#   ./scripts/setup.sh
+#   ./scripts/setup.sh --clear
+#
+# На prod bootstrap запускається автоматично в scripts/start.sh при кожному старті сервісу.
 
 set -euo pipefail
 

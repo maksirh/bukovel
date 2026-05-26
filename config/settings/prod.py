@@ -32,6 +32,11 @@ SECURE_CONTENT_TYPE_NOSNIFF = True
 X_FRAME_OPTIONS = 'DENY'
 
 # ---------------------------------------------------------------------------
-# Cloudinary — зберігання медіафайлів
+# Cloudinary — зберігання медіафайлів (Django 5: через STORAGES, не DEFAULT_FILE_STORAGE)
 # ---------------------------------------------------------------------------
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+STORAGES = {
+    **STORAGES,
+    'default': {
+        'BACKEND': 'cloudinary_storage.storage.MediaCloudinaryStorage',
+    },
+}
