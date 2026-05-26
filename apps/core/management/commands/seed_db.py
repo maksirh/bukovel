@@ -163,7 +163,10 @@ class Command(BaseCommand):
             self._smart_sync
             and not self._force_images
             and field.name
-            and not needs_cloudinary_upload(field)
+            and not needs_cloudinary_upload(
+                field,
+                verify_remote=getattr(self, '_verify_remote', False),
+            )
         ):
             self._images_skip += 1
             return

@@ -3,29 +3,8 @@ from django.core.files.storage import default_storage
 from django.core.management import call_command
 from django.core.management.base import BaseCommand, CommandError
 
-from apps.core.cloudinary_sync import (
-    cloudinary_configured,
-    needs_cloudinary_upload,
-    uses_cloudinary_storage,
-)
+from apps.core.cloudinary_sync import cloudinary_configured, uses_cloudinary_storage
 from apps.core.models import HeroSlide, SiteBootstrap
-from apps.rooms.models import RoomType
-
-
-def _media_needs_reseed() -> bool:
-    """Контент є, але фото не на Cloudinary або URL битий (404)."""
-    slide = HeroSlide.objects.filter(image__gt='').first()
-    if slide and needs_cloudinary_upload(slide.image):
-        return True
-
-    room = RoomType.objects.filter(cover_image__gt='').first()
-    if room and needs_cloudinary_upload(room.cover_image):
-        return True
-
-    if HeroSlide.objects.exists() and not HeroSlide.objects.exclude(image='').exists():
-        return True
-
-    return False
 
 
 class Command(BaseCommand):
@@ -46,20 +25,6 @@ class Command(BaseCommand):
         has_flag = SiteBootstrap.objects.filter(key=key).exists()
         has_content = HeroSlide.objects.exists()
         force = options['force']
-
-        if (
-            not force
-            and uses_cloudinary_storage(default_storage)
-            and cloudinary_configured()
-            and has_content
-            and _media_needs_reseed()
-        ):
-            self.stdout.write(
-                self.style.WARNING(
-                    '⚠  Контент без Cloudinary-фото — автоматичне перезаповнення (seed_db --clear).'
-                )
-            )
-            force = True
 
         if not force:
             if has_flag and has_content:

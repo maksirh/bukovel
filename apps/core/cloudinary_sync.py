@@ -19,7 +19,7 @@ def image_url_on_cloudinary(url: str) -> bool:
     return 'res.cloudinary.com' in url or 'cloudinary.com' in url
 
 
-def image_url_reachable(url: str, timeout: int = 8) -> bool:
+def image_url_reachable(url: str, timeout: int = 5) -> bool:
     if not url:
         return False
     try:
@@ -30,11 +30,18 @@ def image_url_reachable(url: str, timeout: int = 8) -> bool:
         return False
 
 
-def needs_cloudinary_upload(image_field) -> bool:
-    """True якщо поле порожнє, URL не Cloudinary, або файл на Cloudinary відсутній (404)."""
+def needs_cloudinary_upload(image_field, *, verify_remote: bool = False) -> bool:
+    """
+    Чи потрібен upload.
+
+    verify_remote=False (за замовчуванням): без HTTP — швидко на старті Render.
+    verify_remote=True: додатково HEAD-перевірка (повільно, сотні запитів).
+    """
     if not image_field or not image_field.name:
         return True
     url = image_field.url
     if not image_url_on_cloudinary(url):
         return True
-    return not image_url_reachable(url)
+    if verify_remote:
+        return not image_url_reachable(url)
+    return False
