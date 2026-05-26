@@ -441,3 +441,13 @@ msgstr[2] "%(count)s ночей"
 # UAH currency
 msgid "UAH"
 msgstr "грн"
+
+# home hero fallbacks
+msgid "SPA Resort • Bukovel"
+msgstr "SPA Resort • Буковель"
+
+msgid "Premium hotel and SPA in the heart of Bukovel"
+msgstr "Преміум готель та SPA у серці Буковелю"
+
+msgid "%(area)s m²"
+msgstr "%(area)s м²"

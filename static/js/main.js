@@ -6,8 +6,10 @@ import { initForms } from './modules/form.js';
 import { initLightbox } from './modules/lightbox.js';
 import { initModal } from './modules/modal.js';
 import { initParallax } from './modules/parallax.js';
+import { initLangSwitcher, syncPageShell } from './modules/lang-switcher.js';
 
 function init() {
+  initLangSwitcher();
   initHeader();
   initReveal();
   initMobileNav();
@@ -36,11 +38,10 @@ document.addEventListener('htmx:beforeSwap', (e) => {
   const parser = new DOMParser();
   const newDoc = parser.parseFromString(text, 'text/html');
 
+  syncPageShell(newDoc);
+
   // Update page title
   document.title = newDoc.title;
-
-  // Update html lang attribute (for screen readers)
-  document.documentElement.lang = newDoc.documentElement.lang;
 
   // Update body class (e.g. has-hero)
   document.body.className = newDoc.body.className;
@@ -84,6 +85,7 @@ document.addEventListener('htmx:afterSwap', (e) => {
     input.value = window.location.pathname + window.location.search;
   });
 
+  initLangSwitcher();
   initHeader();
   initReveal();
   initMobileNav();

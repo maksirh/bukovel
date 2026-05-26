@@ -75,7 +75,7 @@
       <!-- LEFT: info -->
       <div class="room-detail__main">
         <div class="room-detail__badges">
-          <span class="badge badge--outline">{{ room.area_m2 }} м²</span>
+          <span class="badge badge--outline">{% blocktrans with area=room.area_m2 %}{{ area }} m²{% endblocktrans %}</span>
           <span class="badge badge--outline">
             {% blocktrans with max_guests=room.max_guests %}up to {{ max_guests }} guests{% endblocktrans %}
           </span>
@@ -114,7 +114,7 @@
                   {% endif %}
                   <div class="other-room-card__info">
                     <span class="other-room-card__title">{{ other.title }}</span>
-                    <span class="other-room-card__meta">{{ other.area_m2 }} м²</span>
+                    <span class="other-room-card__meta">{% blocktrans with area=other.area_m2 %}{{ area }} m²{% endblocktrans %}</span>
                   </div>
                 </a>
               {% endfor %}

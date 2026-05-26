@@ -39,6 +39,10 @@ echo "==> Адмін (admin / admin)"
 python manage.py setup_admin
 
 echo ""
+echo "==> Переклади (compilemessages)"
+python manage.py compilemessages --ignore=.venv 2>/dev/null || true
+
+echo ""
 echo "==> Seed-дані (тексти + зображення з hotel_images/)"
 python manage.py seed_db "$@"
 

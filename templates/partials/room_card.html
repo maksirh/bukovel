@@ -11,7 +11,7 @@
   </a>
   <div class="room-card__body">
     <div class="room-card__meta">
-      <span class="badge badge--outline">{{ room.area_m2 }} м²</span>
+      <span class="badge badge--outline">{% blocktrans with area=room.area_m2 %}{{ area }} m²{% endblocktrans %}</span>
       <span class="badge badge--outline">{{ room.max_guests }} {% trans "guests." %}</span>
     </div>
     <h3 class="room-card__title">
