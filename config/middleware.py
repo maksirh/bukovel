@@ -17,11 +17,17 @@ class ContentSecurityPolicyMiddleware:
         "form-action 'self'; "
     )
 
+    # django-unfold (Alpine.js) потребує unsafe-eval; TinyMCE — окремі скрипти в адмінці.
+    EXEMPT_PREFIXES = ('/admin/', '/tinymce/')
+
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
         response = self.get_response(request)
-        if not settings.DEBUG:
-            response['Content-Security-Policy'] = self.POLICY
+        if settings.DEBUG:
+            return response
+        if request.path.startswith(self.EXEMPT_PREFIXES):
+            return response
+        response['Content-Security-Policy'] = self.POLICY
         return response
