@@ -38,13 +38,7 @@
       </p>
     {% endif %}
     <div class="spa-hero__actions reveal reveal--up" data-reveal-delay="240">
-      <button
-        type="button"
-        class="btn btn--gold btn--lg"
-        hx-get="{% url 'booking_modal' %}"
-        hx-target="#modal-root"
-        hx-swap="innerHTML"
-      >{% trans "Book SPA" %}</button>
+      <a href="{% url 'booking' %}" class="btn btn--gold btn--lg">{% trans "Book SPA" %}</a>
     </div>
   </div>
   <div class="spa-hero__scroll" aria-hidden="true">
@@ -242,14 +236,11 @@
               </li>
             {% endfor %}
           </ul>
-          <button
-            type="button"
+          <a
+            href="{% url 'booking' %}"
             class="btn {% if pkg.is_popular %}btn--gold{% else %}btn--outline{% endif %} btn--full spa-package__cta"
-            hx-get="{% url 'booking_modal' %}"
-            hx-target="#modal-root"
-            hx-swap="innerHTML"
             aria-label="{% blocktrans with title=pkg.title %}Book {{ title }}{% endblocktrans %}"
-          >{% trans "Book" %}</button>
+          >{% trans "Book" %}</a>
         </div>
       {% endfor %}
     </div>
@@ -302,13 +293,7 @@
           <a href="tel:{{ site_settings.phone }}" class="spa-cta__phone">{{ site_settings.phone }}</a>
         {% endif %}
       </div>
-      <button
-        type="button"
-        class="btn btn--gold btn--lg"
-        hx-get="{% url 'booking_modal' %}"
-        hx-target="#modal-root"
-        hx-swap="innerHTML"
-      >{% trans "Book" %}</button>
+      <a href="{% url 'booking' %}" class="btn btn--gold btn--lg">{% trans "Book" %}</a>
     </div>
   </div>
 </section>

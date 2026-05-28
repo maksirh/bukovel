@@ -21,11 +21,6 @@
       <p class="room-card__desc">{{ room.short_description|truncatewords:18 }}</p>
     {% endif %}
     <div class="room-card__footer">
-      {% if room.base_price %}
-        <span class="room-card__price">
-          {% blocktrans with price=room.base_price %}from {{ price }} UAH/night{% endblocktrans %}
-        </span>
-      {% endif %}
       <a href="{{ room.get_absolute_url }}" class="btn btn--outline btn--sm">{% trans "More details" %}</a>
     </div>
   </div>

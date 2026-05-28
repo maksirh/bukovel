@@ -28,14 +28,7 @@
 
       {% include 'partials/lang_switcher.html' %}
 
-      <button
-        type="button"
-        class="btn btn--gold btn--sm"
-        hx-get="{% url 'booking_modal' %}"
-        hx-target="#modal-root"
-        hx-swap="innerHTML"
-        aria-label="{% trans 'Book a room' %}"
-      >{% trans "Book" %}</button>
+      <a href="{% url 'booking' %}" class="btn btn--gold btn--sm">{% trans "Book" %}</a>
     </div>
 
     <button class="header__burger" id="burger-btn" aria-label="{% trans 'Menu' %}" aria-expanded="false" aria-controls="mobile-nav">

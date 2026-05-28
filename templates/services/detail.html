@@ -44,14 +44,7 @@
             {{ service.short_description|linebreaks }}
           {% endif %}
         </div>
-        <button
-          type="button"
-          class="btn btn--gold reveal reveal--up"
-          data-reveal-delay="100"
-          hx-get="{% url 'booking_modal' %}"
-          hx-target="#modal-root"
-          hx-swap="innerHTML"
-        >{% trans "Book" %}</button>
+        <a href="{% url 'booking' %}" class="btn btn--gold reveal reveal--up" data-reveal-delay="100">{% trans "Book" %}</a>
       </div>
     </div>
   </div>

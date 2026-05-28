@@ -189,13 +189,7 @@
           <a href="tel:{{ site_settings.phone }}" class="restaurant-cta__phone">{{ site_settings.phone }}</a>
         {% endif %}
       </div>
-      <button
-        type="button"
-        class="btn btn--gold btn--lg"
-        hx-get="{% url 'booking_modal' %}"
-        hx-target="#modal-root"
-        hx-swap="innerHTML"
-      >{% trans "Book" %}</button>
+      <a href="{% url 'booking' %}" class="btn btn--gold btn--lg">{% trans "Book" %}</a>
     </div>
   </div>
 </section>

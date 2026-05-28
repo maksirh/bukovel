@@ -126,13 +126,6 @@
       <!-- RIGHT: booking -->
       <aside class="room-detail__aside">
         <div class="room-detail__booking-card">
-          {% if room.base_price %}
-            <div class="room-detail__price">
-              <span class="room-detail__price-label">{% trans "from" %}</span>
-              <strong class="room-detail__price-value">{{ room.base_price }} {% trans "UAH" %}</strong>
-              <span class="room-detail__price-unit">{% trans "/night" %}</span>
-            </div>
-          {% endif %}
           <h3 class="room-detail__booking-title">{% trans "Book this room" %}</h3>
           {% include 'partials/booking_form.html' with form=booking_form %}
         </div>
